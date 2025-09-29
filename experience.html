@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Experience - Jake Golden</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <!-- Bootstrap icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Bootstrap + Custom CSS -->
+    <link href="css/styles.css" rel="stylesheet" />
+    <style>
+      body { font-family: "Plus Jakarta Sans", sans-serif; color: #373d47; }
+      h1, h2, h3, h4, h5, h6 { font-family: "Arial Black", Arial, sans-serif; }
+
+      /* Gradient text */
+      .text-gradient {
+        background: linear-gradient(135deg, #3C7E8B, #7B6AAF);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Banner toggle */
+      .banner {
+        background-size: cover;
+        background-position: center;
+        min-height: 180px;
+        padding: 2rem;
+        color: white;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+        cursor: pointer;
+      }
+      .banner h2 { margin-bottom: 0.5rem; text-align: left; }
+      .banner p { margin: 0; text-align: left; font-weight: 300; }
+
+      /* Collapsible section content */
+      .section-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.6s ease, padding 0.3s ease;
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+      .section-content.open {
+        max-height: 2000px; /* adjust as needed */
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+      }
+
+      /* Reusable content box */
+      .content-box {
+        background-color: #fff;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      }
+
+      /* Expandable cards */
+      .expandable-card {
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+      .expandable-card:hover { transform: scale(1.03); }
+      .expandable-content { display: none; margin-top: 1rem; }
+      .expandable-card img.placeholder {
+        width: 100%; border-radius: 8px; margin-bottom: 1rem;
+      }
+
+      /* Skill items */
+      .skill-item {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 1rem;
+        text-align: center;
+        font-weight: 500;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      }
+
+      /* Process panes */
+      .process-pane {
+        text-align: center;
+        background: #fff;
+        border-radius: 12px;
+        padding: 1.5rem;
+        height: 100%;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      }
+      .process-pane h4 { margin-bottom: 1rem; }
+      .process-pane img { max-width: 100%; border-radius: 8px; }
+
+      /* Custom carousel */
+      .carousel-container { position: relative; overflow: hidden; }
+      .carousel-track { display: flex; transition: transform 0.5s ease; }
+      .carousel-item-custom { flex: 0 0 calc(100% / 3); padding: 0.5rem; }
+      .carousel-item-custom img {
+        width: 100%; border-radius: 8px; object-fit: cover;
+      }
+      .carousel-btn {
+        position: absolute; top: 50%; transform: translateY(-50%);
+        background: rgba(0,0,0,0.5); border: none; color: white;
+        font-size: 2rem; padding: 0.25rem 0.5rem; cursor: pointer; z-index: 2;
+      }
+      .carousel-btn.prev { left: 10px; }
+      .carousel-btn.next { right: 10px; }
+    </style>
+  </head>
+  <body class="d-flex flex-column h-100 bg-light">
+    <main class="flex-shrink-0">
+      <!-- Navigation -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
+        <div class="container px-5">
+          <a class="navbar-brand fw-bolder text-primary" href="index.html">Jake Golden</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto small fw-bolder">
+              <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+              <li class="nav-item"><a class="nav-link active" href="experience.html">Experience</a></li>
+              <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
+              <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Page Header -->
+      <header class="py-5 text-center">
+        <div class="container px-5">
+          <h1 class="display-3 fw-bolder"><span class="text-gradient d-inline">Professional Experience</span></h1>
+        </div>
+      </header>
+
+      <!-- ===================== STRYKER ===================== -->
+      <section>
+        <div class="banner" style="background-image: url('assets/stryker-banner.png');" data-target="stryker">
+          <h2 class="display-6 fw-bolder">Stryker – Product Development Internship</h2>
+          <p>Hands-on experience in medical device prototyping, testing, and automation.</p>
+        </div>
+        <div id="stryker" class="section-content container px-5">
+          <!-- Goal -->
+          <div class="row gx-5 py-4">
+            <div class="col-lg-4 mb-4">
+              <div class="content-box text-center">
+                <h3 class="fw-bolder">Goal</h3>
+                <p class="lead">Contribute to the design and testing of medical devices through prototyping, verification, testing, and automation workflows.</p>
+              </div>
+            </div>
+            <!-- Expandable cards -->
+            <div class="col-lg-8">
+              <div class="row g-4">
+                <div class="col-md-6"><div class="card shadow expandable-card"><div class="card-body"><img class="placeholder" src="assets/prototyping-thumb.png" alt="Prototyping"><h5 class="fw-bolder">Prototyping</h5><p class="text-muted">Click to expand</p><div class="expandable-content"><img class="img-fluid rounded mb-3" src="assets/prototyping.png" alt="Prototyping"><ul><li>v4.0 (ninth iteration)</li><li>CAD modeling in PTC Creo</li><li>Rapid prototyping techniques</li></ul></div></div></div></div>
+                <div class="col-md-6"><div class="card shadow expandable-card"><div class="card-body"><img class="placeholder" src="assets/verification-thumb.png" alt="Verification"><h5 class="fw-bolder">Verification</h5><p class="text-muted">Click to expand</p><div class="expandable-content"><img class="img-fluid rounded mb-3" src="assets/verification.png" alt="Verification"><ul><li>Design verification planning</li><li>Test method development</li><li>Data-driven evaluation</li></ul></div></div></div></div>
+                <div class="col-md-6"><div class="card shadow expandable-card"><div class="card-body"><img class="placeholder" src="assets/testing-thumb.png" alt="Testing"><h5 class="fw-bolder">Testing</h5><p class="text-muted">Click to expand</p><div class="expandable-content"><img class="img-fluid rounded mb-3" src="assets/testing.png" alt="Testing"><ul><li>Compared knee laxity values</li><li>Evaluated packaging after simulated 5-year shelf life</li><li>Executed bench-level testing</li></ul></div></div></div></div>
+                <div class="col-md-6"><div class="card shadow expandable-card"><div class="card-body"><img class="placeholder" src="assets/automation-thumb.png" alt="Automation"><h5 class="fw-bolder">Automation</h5><p class="text-muted">Click to expand</p><div class="expandable-content"><img class="img-fluid rounded mb-3" src="assets/automation.png" alt="Automation"><ul><li>Automated testing workflows</li><li>Scripted data collection</li><li>Process optimization</li></ul></div></div></div></div>
+              </div>
+            </div>
+          </div>
+          <!-- Skills -->
+          <div class="row row-cols-1 row-cols-md-3 g-3 py-4">
+            <div class="col"><div class="skill-item">Design Controls</div></div>
+            <div class="col"><div class="skill-item">PTC Creo CAD</div></div>
+            <div class="col"><div class="skill-item">Testing Methods</div></div>
+            <div class="col"><div class="skill-item">Verification Planning</div></div>
+            <div class="col"><div class="skill-item">Automation</div></div>
+            <div class="col"><div class="skill-item">GD&T</div></div>
+          </div>
+          <!-- Carousel -->
+          <div class="carousel-container py-4">
+            <button class="carousel-btn prev">&#10094;</button>
+            <div class="carousel-track">
+              <div class="carousel-item-custom"><img src="assets/stryker1.png" alt="Stryker 1"></div>
+              <div class="carousel-item-custom"><img src="assets/stryker2.png" alt="Stryker 2"></div>
+              <div class="carousel-item-custom"><img src="assets/stryker3.png" alt="Stryker 3"></div>
+              <div class="carousel-item-custom"><img src="assets/stryker4.png" alt="Stryker 4"></div>
+              <div class="carousel-item-custom"><img src="assets/stryker5.png" alt="Stryker 5"></div>
+              <div class="carousel-item-custom"><img src="assets/stryker6.png" alt="Stryker 6"></div>
+              <div class="carousel-item-custom"><img src="assets/stryker7.png" alt="Stryker 7"></div>
+            </div>
+            <button class="carousel-btn next">&#10095;</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== BSEL ===================== -->
+      <section>
+        <div class="banner" style="background-image: url('assets/bsel-banner.png');" data-target="bsel">
+          <h2 class="display-6 fw-bolder">Brain Stimulation Engineering Lab</h2>
+          <p>Computational brain stimulation modeling and FEA analysis.</p>
+        </div>
+        <div id="bsel" class="section-content container px-5">
+          <!-- Goal -->
+          <div class="content-box text-center my-4">
+            <h3 class="fw-bolder">Goal</h3>
+            <p class="lead">Advance brain stimulation modeling through computational methods, improving accuracy in predicting neural activation patterns.</p>
+          </div>
+          <!-- Process -->
+          <div class="row g-4">
+            <div class="col-md-4"><div class="process-pane"><h4>Generate Head Model</h4><img src="assets/headmodel.png" alt="Head Model"></div></div>
+            <div class="col-md-4"><div class="process-pane"><h4>Script FEA Simulation</h4><img src="assets/fea.png" alt="FEA Simulation"></div></div>
+            <div class="col-md-4"><div class="process-pane"><h4>Analyze Results</h4><img src="assets/analysis.png" alt="Analysis"></div></div>
+          </div>
+          <!-- Projects -->
+          <div class="row g-4 py-4">
+            <div class="col-md-6"><div class="card shadow expandable-card"><div class="card-body"><h5 class="fw-bolder">Project 1: Head Models & FEA</h5><p class="text-muted">Click to expand</p><div class="expandable-content"><img class="img-fluid rounded mb-3" src="assets/project1.png" alt="Project 1"><ul><li>Generated realistic head models</li><li>Ran finite element simulations</li><li>Compared stimulation results</li></ul></div></div></div></div>
+            <div class="col-md-6"><div class="card shadow expandable-card"><div class="card-body"><h5 class="fw-bolder">Project 2: Coil Comparison</h5><p class="text-muted">Click to expand</p><div class="expandable-content"><img class="img-fluid rounded mb-3" src="assets/project2.png" alt="Project 2"><ul><li>Compared e-field spread of coils</li><li>Sphere vs realistic brain models</li><li>Optimized stimulation parameters</li></ul></div></div></div></div>
+            <div class="col-md-6"><div class="card shadow expandable-card"><div class="card-body"><h5 class="fw-bolder">Project 3 (Placeholder)</h5></div></div></div>
+            <div class="col-md-6"><div class="card shadow expandable-card"><div class="card-body"><h5 class="fw-bolder">Project 4 (Placeholder)</h5></div></div></div>
+          </div>
+          <!-- Skills -->
+          <div class="row row-cols-1 row-cols-md-3 g-3 py-4">
+            <div class="col"><div class="skill-item">Finite Element Analysis</div></div>
+            <div class="col"><div class="skill-item">MATLAB</div></div>
+            <div class="col"><div class="skill-item">SimNIBS</div></div>
+            <div class="col"><div class="skill-item">Data Visualization</div></div>
+            <div class="col"><div class="skill-item">Signal Processing</div></div>
+            <div class="col"><div class="skill-item">Computational Modeling</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== SIMS ===================== -->
+      <section>
+        <div class="banner" style="background-image: url('assets/sims-banner.png');" data-target="sims">
+          <h2 class="display-6 fw-bolder">SIMS Pump Valve – Mechanical Engineering Internship</h2>
+          <p>Mechanical engineering internship focused on pump valve design.</p>
+        </div>
+        <div id="sims" class="section-content container px-5">
+          <div class="row g-4 py-4">
+            <div class="col-md-6"><div class="content-box text-center"><h4>Pane 1</h4><img src="assets/sims1.png" alt="SIMS Pane 1"></div></div>
+            <div class="col-md-6"><div class="content-box text-center"><h4>Pane 2</h4><img src="assets/sims2.png" alt="SIMS Pane 2"></div></div>
+            <div class="col-md-6"><div class="content-box text-center"><h4>Pane 3</h4><img src="assets/sims3.png" alt="SIMS Pane 3"></div></div>
+            <div class="col-md-6"><div class="content-box text-center"><h4>Pane 4</h4><img src="assets/sims4.png" alt="SIMS Pane 4"></div></div>
+          </div>
+        </div>
+      </section>
+
+    <!-- ===================== Stevens ===================== -->
+    <section>
+      <div class="banner" style="background-image: url('assets/stevens-banner.png');" data-target="stevens">
+        <h2 class="display-6 fw-bolder">Stevens Institute of Technology R&D</h2>
+        <p>Biomedical R&D Internship</p>
+      </div>
+      <div id="stevens" class="section-content container px-5">
+        
+        <!-- About Pane -->
+        <div class="content-box text-center my-4">
+          <h3 class="fw-bolder">About</h3>
+          <p class="lead"><strong>Mechanical thrombectomy</strong> is a procedure to remove blood clots from blood vessels.</p>
+          <div class="row mt-4">
+            <div class="col-md-6">
+              <img src="assets/stevens-about1.png" alt="About placeholder 1" class="img-fluid rounded mb-3">
+            </div>
+            <div class="col-md-6">
+              <img src="assets/stevens-about2.png" alt="About placeholder 2" class="img-fluid rounded mb-3">
+            </div>
+          </div>
+        </div>
+
+        <!-- Goal Pane -->
+        <div class="content-box text-center my-4">
+          <h3 class="fw-bolder">Goal</h3>
+          <p class="lead">Develop and validate biomedical R&D workflows for enhanced diagnostic imaging and analysis.</p>
+        </div>
+
+        <!-- Two Side-by-Side Panes -->
+        <div class="row g-4 my-4">
+          <div class="col-lg-7">
+            <div class="content-box text-center h-100">
+              <h4 class="fw-bolder">Data Acquisition Setup</h4>
+              <img src="assets/stevens-data.png" alt="Data Acquisition placeholder" class="img-fluid rounded mt-3">
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="content-box text-center h-100">
+              <h4 class="fw-bolder">Contour Detection</h4>
+              <img src="assets/stevens-contour.png" alt="Contour Detection placeholder" class="img-fluid rounded mt-3">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-4 bg-white mt-auto">
+      <div class="container px-5 text-center">
+        <small class="text-muted">&copy; 2025 Jake Golden. All rights reserved.</small>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/scripts.js"></script>
+  </body>
+</html>
