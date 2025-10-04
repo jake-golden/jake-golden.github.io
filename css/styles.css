@@ -1,3 +1,4 @@
+
 @charset "UTF-8";
 /*!
 * Start Bootstrap - Personal v1.0.1 (https://startbootstrap.com/template-overviews/personal)
@@ -623,6 +624,20 @@ progress {
 .figure-caption {
   font-size: 0.875em;
   color: #6c757d;
+}
+
+.expandable-thumb {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  background: #fff !important;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  padding: 8px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
 }
 
 .container,
@@ -8236,6 +8251,15 @@ textarea.form-control-lg {
 .text-body {
   --bs-text-opacity: 1;
   color: rgba(var(--bs-body-color-rgb), var(--bs-text-opacity)) !important;
+}
+
+.text-highlighted {
+    background: linear-gradient(135deg, #3C7E8B, #7B6AAF);
+    background-clip: text;           /* Standard property */
+    -webkit-background-clip: text;   /* Vendor prefix for Safari/Chrome */
+    -webkit-text-fill-color: transparent;
+    color: transparent;              /* Fallback */
+    font-weight: bold;
 }
 
 .text-muted {

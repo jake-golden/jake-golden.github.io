@@ -12,25 +12,113 @@
     <!-- Bootstrap + Custom CSS -->
     <link href="css/styles.css" rel="stylesheet" />
     <style>
+      /* Smaller carousel controls for Stryker panes */
+      .stryker-carousel .carousel-control-prev,
+      .stryker-carousel .carousel-control-next {
+        width: 32px;
+        height: 32px;
+        top: 45%;
+      }
+      .stryker-carousel .carousel-control-prev-icon {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23373d47' stroke-width='3.5' viewBox='0 0 24 24'%3E%3Cpath d='M15 19l-7-7 7-7'/%3E%3C/svg%3E");
+        background-size: 24px 24px;
+        filter: none;
+      }
+      .stryker-carousel .carousel-control-next-icon {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23373d47' stroke-width='3.5' viewBox='0 0 24 24'%3E%3Cpath d='M9 5l7 7-7 7'/%3E%3C/svg%3E");
+        background-size: 24px 24px;
+        filter: none;
+      }
       body { font-family: "Plus Jakarta Sans", sans-serif; color: #373d47; }
       h1, h2, h3, h4, h5, h6 { font-family: "Arial Black", Arial, sans-serif; }
 
       /* Gradient text */
       .text-gradient {
         background: linear-gradient(135deg, #3C7E8B, #7B6AAF);
-        -webkit-background-clip: text;
+        background-clip: text;           /* Standard property */
+        -webkit-background-clip: text;   /* Vendor prefix for Safari/Chrome */
         -webkit-text-fill-color: transparent;
+        color: transparent;              /* Fallback */
       }
+
 
       /* Banner toggle */
       .banner {
-        background-size: cover;
-        background-position: center;
+        background-color: #181a1b;
+        position: relative;
         min-height: 180px;
         padding: 2rem;
         color: white;
         text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
         cursor: pointer;
+        overflow: hidden;
+        transition: background-color 0.3s, transform 0.3s, min-height 0.3s, box-shadow 0.3s;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      }
+      .banner[data-target="stryker"]::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: url('assets/stryker/stryker_banner.png');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.35;
+        z-index: 0;
+        transition: opacity 0.3s;
+      }
+      .banner[data-target="stryker"]:hover::before {
+        opacity: 0.6;
+      }
+      .banner[data-target="stevens"]::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: url('assets/stevens/stevens_banner.png');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.35;
+        z-index: 0;
+        transition: opacity 0.3s;
+      }
+      .banner[data-target="stevens"]:hover::before {
+        opacity: 0.6;
+      }
+      .banner[data-target="bsel"]::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: url('assets/bsel/bsel_banner.png');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.35;
+        z-index: 0;
+        transition: opacity 0.3s;
+      }
+      .banner[data-target="bsel"]:hover::before {
+        opacity: 0.6;
+      }
+      .banner[data-target="sims"]::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: url('assets/sims/sims_banner.png');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.35;
+        z-index: 0;
+        transition: opacity 0.3s;
+      }
+      .banner[data-target="sims"]:hover::before {
+        opacity: 0.6;
+      }
+      .banner:hover {
+        transform: scale(1.01);
+        min-height: 200px;
+        box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+      }
+      .banner > * {
+        position: relative;
+        z-index: 1;
       }
       .banner h2 { margin-bottom: 0.5rem; text-align: left; }
       .banner p { margin: 0; text-align: left; font-weight: 300; }
@@ -63,9 +151,15 @@
         transition: transform 0.2s ease;
       }
       .expandable-card:hover { transform: scale(1.03); }
+      .expandable-card.open .expandable-thumb {
+        display: none;
+      }
+      .expandable-card.open .expand-hint {
+        display: none;
+      }
       .expandable-content { display: none; margin-top: 1rem; }
       .expandable-card img.placeholder {
-        width: 100%; border-radius: 8px; margin-bottom: 1rem;
+        width: 100%; border-radius: 0px; margin-bottom: 1rem;
       }
 
       /* Skill items */
@@ -135,58 +229,216 @@
 
       <!-- ===================== STRYKER ===================== -->
       <section>
-        <div class="banner" style="background-image: url('assets/stryker-banner.png');" data-target="stryker">
-          <h2 class="display-6 fw-bolder">Stryker – Product Development Internship</h2>
-          <p>Hands-on experience in medical device prototyping, testing, and automation.</p>
+        <div class="banner" style="background-image: url('assets/stryker/stryker-banner.png');" data-target="stryker">
+          <h2 class="display-6 fw-bolder">Stryker</h2>
+          <p>Hands-on experience in medical device design, testing, and automation.</p>
         </div>
         <div id="stryker" class="section-content container px-5">
-          <!-- Goal -->
+          <!-- Goal: full width -->
           <div class="row gx-5 py-4">
-            <div class="col-lg-4 mb-4">
+            <div class="col-12 mb-4">
               <div class="content-box text-center">
-                <h3 class="fw-bolder">Goal</h3>
-                <p class="lead">Contribute to the design and testing of medical devices through prototyping, verification, testing, and automation workflows.</p>
-              </div>
-            </div>
-            <!-- Expandable cards -->
-            <div class="col-lg-8">
-              <div class="row g-4">
-                <div class="col-md-6"><div class="card shadow expandable-card"><div class="card-body"><img class="placeholder" src="assets/prototyping-thumb.png" alt="Prototyping"><h5 class="fw-bolder">Prototyping</h5><p class="text-muted">Click to expand</p><div class="expandable-content"><img class="img-fluid rounded mb-3" src="assets/prototyping.png" alt="Prototyping"><ul><li>v4.0 (ninth iteration)</li><li>CAD modeling in PTC Creo</li><li>Rapid prototyping techniques</li></ul></div></div></div></div>
-                <div class="col-md-6"><div class="card shadow expandable-card"><div class="card-body"><img class="placeholder" src="assets/verification-thumb.png" alt="Verification"><h5 class="fw-bolder">Verification</h5><p class="text-muted">Click to expand</p><div class="expandable-content"><img class="img-fluid rounded mb-3" src="assets/verification.png" alt="Verification"><ul><li>Design verification planning</li><li>Test method development</li><li>Data-driven evaluation</li></ul></div></div></div></div>
-                <div class="col-md-6"><div class="card shadow expandable-card"><div class="card-body"><img class="placeholder" src="assets/testing-thumb.png" alt="Testing"><h5 class="fw-bolder">Testing</h5><p class="text-muted">Click to expand</p><div class="expandable-content"><img class="img-fluid rounded mb-3" src="assets/testing.png" alt="Testing"><ul><li>Compared knee laxity values</li><li>Evaluated packaging after simulated 5-year shelf life</li><li>Executed bench-level testing</li></ul></div></div></div></div>
-                <div class="col-md-6"><div class="card shadow expandable-card"><div class="card-body"><img class="placeholder" src="assets/automation-thumb.png" alt="Automation"><h5 class="fw-bolder">Automation</h5><p class="text-muted">Click to expand</p><div class="expandable-content"><img class="img-fluid rounded mb-3" src="assets/automation.png" alt="Automation"><ul><li>Automated testing workflows</li><li>Scripted data collection</li><li>Process optimization</li></ul></div></div></div></div>
+                  <div class="row align-items-center text-start g-4">
+                  <div class="col-md-6">
+                    <h3 class="fw-bolder text-center">Goal</h3>
+                    <p class="lead">Work with a team to develop <span class="text-highlighted">improved tibial inserts</span> for total knee arthroplasty.</p>
+                  </div>
+                  <div class="col-md-6 text-center">
+                    <img src="assets/stryker/tibial_inserts.png" alt="Total Knee Replacement" class="img-fluid mt-3" style="max-width: 600px; height: auto;">
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <!-- Skills -->
-          <div class="row row-cols-1 row-cols-md-3 g-3 py-4">
-            <div class="col"><div class="skill-item">Design Controls</div></div>
-            <div class="col"><div class="skill-item">PTC Creo CAD</div></div>
-            <div class="col"><div class="skill-item">Testing Methods</div></div>
-            <div class="col"><div class="skill-item">Verification Planning</div></div>
-            <div class="col"><div class="skill-item">Automation</div></div>
-            <div class="col"><div class="skill-item">GD&T</div></div>
+          <!-- Static panes with carousels: 2x2 grid -->
+          <div class="row g-4">
+            <div class="col-md-6">
+              <div class="card shadow expandable-card">
+                <div class="card-body">
+                  <h5 class="fw-bolder">Prototyping</h5>
+                  <p class="text-muted"><span class="expand-hint">Click to expand</span></p>
+                  <div class="expandable-content">
+                    <p><strong>Goal</strong>: Develop a reliable prototype for a new tibial insert that addresses currently unmet user needs.</p>
+                    <div id="carouselPrototyping" class="carousel slide stryker-carousel mb-3" data-bs-ride="false">
+                      <div class="carousel-inner" style="max-height:260px; max-width:480px; min-height:260px; margin-left:auto; margin-right:auto">
+                        <div class="carousel-item active">
+                          <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                            <img src="assets/stryker/prototyping_thumb.gif" class="rounded" alt="Prototype Iterations" style="max-height:240px; object-fit:contain;">
+                          </div>
+                        </div>
+                        <div class="carousel-item">
+                          <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                            <img src="assets/stryker/prototyping_gal.png" class="rounded" alt="Prototype GIF" style="max-height:240px; object-fit:contain;">
+                          </div>
+                        </div>
+                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselPrototyping" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#carouselPrototyping" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                      </button>
+                    </div>
+                    <ul class="mb-0">
+                      <li>Iteratively developed 9 prototypes total</li>
+                      <li>Created design inputs to address unmet user needs</li>
+                      <li>Modeled and evaluated prototypes in PTC Creo</li>
+                      <li>Fabricated prototypes using FDM</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card shadow expandable-card">
+                <div class="card-body">
+                  <h5 class="fw-bolder">Verification</h5>
+                  <p class="text-muted"><span class="expand-hint">Click to expand</span></p>
+                  <div class="expandable-content">
+                    <p><strong>Goal</strong>: Verify that a new tibial insert meets all design inputs and regulatory requirements.</p>
+                    <div id="carouselVerification" class="carousel slide stryker-carousel mb-3" data-bs-ride="false">
+                      <div class="carousel-inner" style="max-height:240px; min-height:240px">
+                        <div class="carousel-item active">
+                          <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                            <img src="assets/stryker/verification_thumb.png" class="rounded" alt="Verification" style="max-height:240px; max-width:530px; object-fit:contain;">
+                          </div>
+                        </div>
+                        <div class="carousel-item">
+                          <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                            <img src="assets/stryker/verification_cad_comps.png" class="rounded" alt="Verification 2" style="max-height:240px; object-fit:contain;">
+                          </div>
+                        </div>
+                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselVerification" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#carouselVerification" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                      </button>
+                    </div>
+                    <ul class="mb-0">
+                      <li>Demonstrated equivalency of key features in novel insert to legacy</li>
+                      <li>Completed 10 GD&T drawing comparison analyses</li>
+                      <li>Verified device met compensating provisions against failure modes</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card shadow expandable-card">
+                <div class="card-body">
+                  <h5 class="fw-bolder">Testing</h5>
+                  <p class="text-muted"><span class="expand-hint">Click to expand</span></p>
+                  <div class="expandable-content">
+                    <p><strong>Goal</strong>: Evaluate the performance of a new tibial insert and its sterile packaging through rigorous testing protocols.</p>
+                    <div id="carouselTesting" class="carousel slide stryker-carousel mb-3" data-bs-ride="false">
+                      <div class="carousel-inner" style="max-height:260px; min-height:260px">
+                        <div class="carousel-item active">
+                          <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                            <img src="assets/stryker/testing_thumb.jpeg" class="rounded" alt="Testing 1" style="max-height:240px; object-fit:contain;">
+                          </div>
+                        </div>
+                        <div class="carousel-item">
+                          <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                            <img src="assets/stryker/testing_tensile.png" class="rounded" alt="Testing 2" style="max-height:240px; object-fit:contain;">
+                          </div>
+                        </div>
+                        <div class="carousel-item">
+                          <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                            <img src="assets/stryker/testing_bubble.png" class="rounded" alt="Testing 2" style="max-height:240px; object-fit:contain;">
+                          </div>
+                        </div>
+                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselTesting" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#carouselTesting" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                      </button>
+                    </div>
+                    <ul class="mb-0">
+                      <li>Compared knee laxity values between novel and legacy inserts</li>
+                      <li>Evaluated packaging after simulated 5-year shelf life</li>
+                      <li>Performed tests on 50+ samples</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card shadow expandable-card">
+                <div class="card-body">
+                  <h5 class="fw-bolder">Automation</h5>
+                  <p class="text-muted"><span class="expand-hint">Click to expand</span></p>
+                  <div class="expandable-content">
+                    <p><strong>Goal</strong>: Streamline the creation of digital files for products to improve team efficiency.</p>
+                    <div id="carouselAutomation" class="carousel slide stryker-carousel mb-3" data-bs-ride="false">
+                      <div class="carousel-inner" style="max-height:260px; min-height:260px">
+                        <div class="carousel-item active">
+                          <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                            <img src="assets/stryker/automation_thumb.png" class="rounded" alt="Automation 1" style="max-height:240px; object-fit:contain;">
+                          </div>
+                        </div>
+                        <div class="carousel-item">
+                          <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                            <img src="assets/stryker/automation_summary.png" alt="Automation 2" style="max-height:240px; object-fit:contain;">
+                          </div>
+                        </div>
+                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselAutomation" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#carouselAutomation" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                      </button>
+                    </div>
+                    <ul class="mb-0">
+                      <li>Automated the generation of 316 digital template files</li>
+                      <li>Programmed macros in PTC Creo</li>
+                      <li>Batch processed files using MATLAB</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <!-- Carousel -->
           <div class="carousel-container py-4">
             <button class="carousel-btn prev">&#10094;</button>
             <div class="carousel-track">
-              <div class="carousel-item-custom"><img src="assets/stryker1.png" alt="Stryker 1"></div>
-              <div class="carousel-item-custom"><img src="assets/stryker2.png" alt="Stryker 2"></div>
-              <div class="carousel-item-custom"><img src="assets/stryker3.png" alt="Stryker 3"></div>
-              <div class="carousel-item-custom"><img src="assets/stryker4.png" alt="Stryker 4"></div>
-              <div class="carousel-item-custom"><img src="assets/stryker5.png" alt="Stryker 5"></div>
-              <div class="carousel-item-custom"><img src="assets/stryker6.png" alt="Stryker 6"></div>
-              <div class="carousel-item-custom"><img src="assets/stryker7.png" alt="Stryker 7"></div>
+              <div class="carousel-item-custom"><img src="assets/stryker/gallery/sawbones1.png" alt="Stryker 1"></div>
+              <div class="carousel-item-custom"><img src="assets/stryker/gallery/clean_build.png" alt="Stryker 2"></div>
+              <div class="carousel-item-custom"><img src="assets/stryker/gallery/monthly_review.png" alt="Stryker 3"></div>
+              <div class="carousel-item-custom"><img src="assets/stryker/gallery/volunteering.png" alt="Stryker 4"></div>
+              <div class="carousel-item-custom"><img src="assets/stryker/gallery/sawbones2.png" alt="Stryker 5"></div>
+              <div class="carousel-item-custom"><img src="assets/stryker/gallery/final_presentation.png" alt="Stryker 6"></div>
             </div>
             <button class="carousel-btn next">&#10095;</button>
+          </div>
+          <!-- Skills -->
+          <div class="row row-cols-1 row-cols-md-3 g-3 py-4">
+            <div class="col"><div class="skill-item">PTC Creo</div></div>
+            <div class="col"><div class="skill-item">GD&T</div></div>
+            <div class="col"><div class="skill-item">FDM</div></div>
+            <div class="col"><div class="skill-item">Hypothesis Testing</div></div>
+            <div class="col"><div class="skill-item">Cross-Functional Collaboration</div></div>
+            <div class="col"><div class="skill-item">Technical Communication</div></div>
           </div>
         </div>
       </section>
 
       <!-- ===================== BSEL ===================== -->
       <section>
-        <div class="banner" style="background-image: url('assets/bsel-banner.png');" data-target="bsel">
+        <div class="banner" style="background-image: url('assets/bsel/bsel-banner.png');" data-target="bsel">
           <h2 class="display-6 fw-bolder">Brain Stimulation Engineering Lab</h2>
           <p>Computational brain stimulation modeling and FEA analysis.</p>
         </div>
@@ -194,67 +446,203 @@
           <!-- Goal -->
           <div class="content-box text-center my-4">
             <h3 class="fw-bolder">Goal</h3>
-            <p class="lead">Advance brain stimulation modeling through computational methods, improving accuracy in predicting neural activation patterns.</p>
+            <p class="lead">Use anatomy-specific <span class="text-highlighted">finite-element models</span> to simulate tDCS and TMS stimulation of the brain.</p>
           </div>
           <!-- Process -->
           <div class="row g-4">
-            <div class="col-md-4"><div class="process-pane"><h4>Generate Head Model</h4><img src="assets/headmodel.png" alt="Head Model"></div></div>
-            <div class="col-md-4"><div class="process-pane"><h4>Script FEA Simulation</h4><img src="assets/fea.png" alt="FEA Simulation"></div></div>
-            <div class="col-md-4"><div class="process-pane"><h4>Analyze Results</h4><img src="assets/analysis.png" alt="Analysis"></div></div>
+            <div class="content-box my-4">
+              <h3 class="fw-bolder text-center mb-4">Process</h3>
+              <div class="d-flex flex-row align-items-center justify-content-center text-center flex-wrap" style="gap: 0.5rem;">
+                <div class="d-flex flex-column align-items-center justify-content-start flex-fill" style="min-width:0;">
+                  <h5 class="fw-bold mb-3" style="color: #595959; min-height: 2.5em; display: flex; align-items: flex-end;">Generate Head Model</h5>
+                  <div class="w-100 d-flex justify-content-center">
+                    <img src="assets/bsel/process_headmodel.gif" alt="Head Model" class="img-fluid rounded mb-2" style="max-width: 100%; width: 100%; max-width: 280px; height: auto;">
+                  </div>
+                </div>
+                <div class="d-none d-md-flex align-items-center" style="height:100%;">
+                  <i class="bi bi-arrow-right" style="font-size:1.5rem; color:#373d47;"></i>
+                </div>
+                <div class="d-flex flex-column align-items-center justify-content-start flex-fill" style="min-width:0;">
+                  <h5 class="fw-bold mb-3" style="color: #595959; min-height: 2.5em; display: flex; align-items: flex-end;">Script FEA Simulation</h5>
+                  <div class="w-100 d-flex justify-content-center">
+                    <img src="assets/bsel/process_fea_sim.gif" alt="FEA" class="img-fluid rounded mb-2" style="max-width: 100%; width: 100%; max-width: 250px; height: auto;">
+                  </div>
+                </div>
+                <div class="d-none d-md-flex align-items-center" style="height:100%;">
+                  <i class="bi bi-arrow-right" style="font-size:1.5rem; color:#373d47;"></i>
+                </div>
+                <div class="d-flex flex-column align-items-center justify-content-start flex-fill" style="min-width:0;">
+                  <h5 class="fw-bold mb-3" style="color: #595959; min-height: 2.5em; display: flex; align-items: flex-end;">Analyze Results</h5>
+                  <div class="w-100 d-flex justify-content-center">
+                    <img src="assets/bsel/process_results.png" alt="Analysis" class="img-fluid rounded mb-2" style="max-width: 100%; width: 100%; max-width: 240px; height: auto;">
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <!-- Projects -->
           <div class="row g-4 py-4">
-            <div class="col-md-6"><div class="card shadow expandable-card"><div class="card-body"><h5 class="fw-bolder">Project 1: Head Models & FEA</h5><p class="text-muted">Click to expand</p><div class="expandable-content"><img class="img-fluid rounded mb-3" src="assets/project1.png" alt="Project 1"><ul><li>Generated realistic head models</li><li>Ran finite element simulations</li><li>Compared stimulation results</li></ul></div></div></div></div>
-            <div class="col-md-6"><div class="card shadow expandable-card"><div class="card-body"><h5 class="fw-bolder">Project 2: Coil Comparison</h5><p class="text-muted">Click to expand</p><div class="expandable-content"><img class="img-fluid rounded mb-3" src="assets/project2.png" alt="Project 2"><ul><li>Compared e-field spread of coils</li><li>Sphere vs realistic brain models</li><li>Optimized stimulation parameters</li></ul></div></div></div></div>
-            <div class="col-md-6"><div class="card shadow expandable-card"><div class="card-body"><h5 class="fw-bolder">Project 3 (Placeholder)</h5></div></div></div>
-            <div class="col-md-6"><div class="card shadow expandable-card"><div class="card-body"><h5 class="fw-bolder">Project 4 (Placeholder)</h5></div></div></div>
+            <div class="col-md-6"><div class="card shadow expandable-card"><div class="card-body"><h5 class="fw-bolder">Project 1: Optimizing Coil Placement</h5><p class="text-muted"><span class="expand-hint">Click to expand</span></p><div class="expandable-content">
+              <p><strong>Goal</strong>: Determine <span class="text-highlighted">optimal TMS coil placement</span> to target a certain brain region given a patient's MRI.</p>
+              <p><strong>Application</strong>: Noninvasive <span class="text-highlighted">treatment of misophonia</span> at Duke Hospital using TMS stimulation.</p>
+              <div id="carouselProject1" class="carousel slide stryker-carousel mb-3" data-bs-ride="false">
+                <div class="carousel-inner" style="max-height:300px; min-height:300px">
+                  <div class="carousel-item active">
+                    <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                      <img src="assets//bsel/project1_step1.png" class="rounded" alt="Project 1" style="max-height:300px; object-fit:contain;">
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                      <img src="assets//bsel/project1_step2.png" class="rounded" alt="Project 1b" style="max-height:300px; object-fit:contain;">
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                      <img src="assets//bsel/project1_step3.png" class="rounded" alt="Project 1c" style="max-height:300px; object-fit:contain;">
+                    </div>
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselProject1" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselProject1" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+              <ul><li>Created head meshes (4M+ elements) from patient MRI data</li><li>Programmed patient-specific FEA simulations</li><li>Developed automated pipeline to determine optimal coil placement and orientation</li></ul>
+            </div></div></div></div>
+            <div class="col-md-6"><div class="card shadow expandable-card"><div class="card-body"><h5 class="fw-bolder">Project 2: Coil Comparison</h5><p class="text-muted"><span class="expand-hint">Click to expand</span></p><div class="expandable-content">
+              <p><strong>Goal</strong>: Compare the <span class="text-highlighted">strength and focality</span> of new, optimized TMS coils to existing ones.</p>
+              <p><strong>Application</strong>: Allow deeper brain regions to be targeted, <span class="text-highlighted">increasing the number of theraputic applications</span> of noninvasive TMS stimulation.</p>
+              <div id="carouselProject2" class="carousel slide stryker-carousel mb-3" data-bs-ride="false">
+                <div class="carousel-inner" style="max-height:300px; min-height:260px">
+                  <div class="carousel-item active">
+                    <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                      <img src="assets/bsel/project2_step1.png" class="rounded" alt="Project 2" style="max-width:530px; object-fit:contain;">
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                      <img src="assets/bsel/project2_step2.png" class="rounded" alt="Project 2b" style="max-height:265px; object-fit:contain;">
+                    </div>
+                  </div>
+                  <div class="carousel-item">
+                    <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                      <img src="assets/bsel/project2_step3.png" class="rounded" alt="Project 2c" style="max-width:530px; object-fit:contain;">
+                    </div>
+                  </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselProject2" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselProject2" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+              <ul><li>Programmed FEA simulations on spherical and realistic brain models</li><li>Developed metrics to quantify "E-field spread"</li><li>Analyzed results and produced figures for publication</li></ul>
+            </div></div></div></div>
+            <div class="col-md-6"><div class="card shadow expandable-card"><div class="card-body"><h5 class="fw-bolder">Project 3: Modified Electrode Placement in ECT</h5><p class="text-muted"><span class="expand-hint">Coming soon!</span></p></div></div></div>
+            <div class="col-md-6"><div class="card shadow expandable-card"><div class="card-body"><h5 class="fw-bolder">Project 4: Localization of Motor Tracts</h5><p class="text-muted"><span class="expand-hint">Coming soon!</span></p></div></div></div>
           </div>
           <!-- Skills -->
           <div class="row row-cols-1 row-cols-md-3 g-3 py-4">
             <div class="col"><div class="skill-item">Finite Element Analysis</div></div>
             <div class="col"><div class="skill-item">MATLAB</div></div>
-            <div class="col"><div class="skill-item">SimNIBS</div></div>
+            <div class="col"><div class="skill-item">Large-Scale Data Analysis</div></div>
             <div class="col"><div class="skill-item">Data Visualization</div></div>
-            <div class="col"><div class="skill-item">Signal Processing</div></div>
-            <div class="col"><div class="skill-item">Computational Modeling</div></div>
+            <div class="col"><div class="skill-item">Bash Programming</div></div>
+            <div class="col"><div class="skill-item">Technical Communication</div></div>
           </div>
         </div>
       </section>
 
       <!-- ===================== SIMS ===================== -->
       <section>
-        <div class="banner" style="background-image: url('assets/sims-banner.png');" data-target="sims">
-          <h2 class="display-6 fw-bolder">SIMS Pump Valve – Mechanical Engineering Internship</h2>
-          <p>Mechanical engineering internship focused on pump valve design.</p>
+        <div class="banner" style="background-image: url('assets/sims/sims-banner.png');" data-target="sims">
+          <h2 class="display-6 fw-bolder">SIMS Pump Valve Company</h2>
+          <p>Mechanical engineering internship focused on repair and design of centrifugal pumps.</p>
         </div>
         <div id="sims" class="section-content container px-5">
-          <div class="row g-4 py-4">
-            <div class="col-md-6"><div class="content-box text-center"><h4>Pane 1</h4><img src="assets/sims1.png" alt="SIMS Pane 1"></div></div>
-            <div class="col-md-6"><div class="content-box text-center"><h4>Pane 2</h4><img src="assets/sims2.png" alt="SIMS Pane 2"></div></div>
-            <div class="col-md-6"><div class="content-box text-center"><h4>Pane 3</h4><img src="assets/sims3.png" alt="SIMS Pane 3"></div></div>
-            <div class="col-md-6"><div class="content-box text-center"><h4>Pane 4</h4><img src="assets/sims4.png" alt="SIMS Pane 4"></div></div>
+          <div class="row g-2 py-2 mb-2">
+            <div class="col-12">
+              <div class="content-box my-2">
+                <h4 class="fw-bolder text-center mb-4">Model Reconstruction</h4>
+                <div class="d-flex flex-row align-items-center justify-content-center text-center" style="gap: 0.5rem; flex-wrap: nowrap;">
+                  <div class="d-flex flex-column align-items-center justify-content-start flex-fill" style="min-width:0;">
+                    <h5 class="fw-bold mb-3" style="color: #595959;">Physical Impeller</h5>
+                    <img src="assets/sims/process_step1.png" alt="Physical Impeller" class="img-fluid rounded mb-2" style="max-height: 250px;">
+                  </div>
+                  <div class="d-none d-md-flex align-items-center" style="height:100;">
+                    <svg width="40" height="24" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 12h32m0 0l-8-8m8 8l-8 8" stroke="#373d47" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <div class="d-flex flex-column align-items-center justify-content-start flex-fill" style="min-width:0;">
+                    <h5 class="fw-bold mb-3" style="color: #595959;">CAD Model</h5>
+                    <img src="assets/sims/process_step2.png" alt="CAD Model" class="img-fluid rounded mb-2" style="max-height: 250px;">
+                  </div>
+                  <div class="d-none d-md-flex align-items-center" style="height:100;">
+                    <svg width="40" height="24" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 12h32m0 0l-8-8m8 8l-8 8" stroke="#373d47" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </div>
+                  <div class="d-flex flex-column align-items-center justify-content-start flex-fill" style="min-width:0;">
+                    <h5 class="fw-bold mb-3" style="color: #595959;">Drawing</h5>
+                    <img src="assets/sims/process_step3.png" alt="Drawing" class="img-fluid rounded mb-2" style="max-height: 250px;">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8" style="flex: 0 0 55%; max-width: 55%;">
+              <div class="content-box text-center my-2" style="margin-right:0.5rem;">
+                <h4>Part Standardization & Assemblies</h4>
+                <div class="d-flex flex-row justify-content-center align-items-center" style="gap: 1.3rem; flex-wrap: wrap;">
+                  <img src="assets/sims/parts_assemblies_1.png" alt="SIMS Pane 2" class="img-fluid" style="max-height: 190px; height: auto; min-width: 120px;">
+                  <img src="assets/sims/parts_assemblies_2.png" alt="SIMS Pane 2" class="img-fluid" style="max-height: 190px; height: auto; min-width: 120px;">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4" style="flex: 0 0 45%; max-width: 45%;">
+              <div class="content-box text-center my-2 mb-1" style="margin-left:0.5rem;">
+                <h4>Testing</h4>
+                <div class="d-flex flex-row justify-content-center align-items-center" style="gap: 1.3rem; flex-wrap: wrap;">
+                  <img src="assets/sims/testing_1.png" alt="SIMS Pane 3" class="img-fluid" style="max-height: 190px; height: auto; min-width: 120px;">
+                  <img src="assets/sims/testing_2.png" alt="SIMS Pane 3" class="img-fluid" style="max-height: 190px; height: auto; min-width: 120px;">
+                </div>
+              </div>
+          </div>
+          <!-- Skills -->
+          <div class="row row-cols-1 row-cols-md-3 g-3 mt-2 py-2">
+            <div class="col"><div class="skill-item">SOLIDWORKS</div></div>
+            <div class="col"><div class="skill-item">Surface Modeling</div></div>
+            <div class="col"><div class="skill-item">Drawings</div></div>
+            <div class="col"><div class="skill-item">Assemblies</div></div>
+            <div class="col"><div class="skill-item">Quality Control</div></div>
+            <div class="col"><div class="skill-item">ISO Standards</div></div>
           </div>
         </div>
       </section>
 
     <!-- ===================== Stevens ===================== -->
     <section>
-      <div class="banner" style="background-image: url('assets/stevens-banner.png');" data-target="stevens">
-        <h2 class="display-6 fw-bolder">Stevens Institute of Technology R&D</h2>
-        <p>Biomedical R&D Internship</p>
+      <div class="banner" data-target="stevens">
+        <h2 class="display-6 fw-bolder">Stevens Institute of Technology</h2>
+        <p>Biomedical R&D internship focused on applications of robotics to mechanical thrombectomy.</p>
       </div>
       <div id="stevens" class="section-content container px-5">
         
         <!-- About Pane -->
         <div class="content-box text-center my-4">
           <h3 class="fw-bolder">About</h3>
-          <p class="lead"><strong>Mechanical thrombectomy</strong> is a procedure to remove blood clots from blood vessels.</p>
           <div class="row mt-4">
             <div class="col-md-6">
-              <img src="assets/stevens-about1.png" alt="About placeholder 1" class="img-fluid rounded mb-3">
+              <p class="lead" style="max-width:500px; margin-left:auto; margin-right:auto;"><span class="text-highlighted">Mechanical thrombectomy</span> is a procedure to remove blood clots from blood vessels.</p>
+              <img src="assets/stevens/about_1.gif" alt="About placeholder 1" class="img-fluid rounded mb-3" style="width:100%; max-width:500px; height:auto; display:block; margin-left:auto; margin-right:auto;">
             </div>
             <div class="col-md-6">
-              <img src="assets/stevens-about2.png" alt="About placeholder 2" class="img-fluid rounded mb-3">
+              <p class="lead" style="max-width:500px; margin-left:auto; margin-right:auto;"><span class="text-highlighted">Guidewire pressure</span> on arterial wall must be minimal to prevent damage.</p>
+              <img src="assets/stevens/about_2.png" alt="About placeholder 2" class="img-fluid rounded mb-3" style="width:100%; max-width:500px; height:auto; display:block; margin-left:auto; margin-right:auto;">
             </div>
           </div>
         </div>
@@ -262,21 +650,21 @@
         <!-- Goal Pane -->
         <div class="content-box text-center my-4">
           <h3 class="fw-bolder">Goal</h3>
-          <p class="lead">Develop and validate biomedical R&D workflows for enhanced diagnostic imaging and analysis.</p>
+          <p class="lead">Estimate <span class="text-highlighted">contact pressure</span> given <span class="text-highlighted">bending geometry</span> using a computer vision model.</p>
         </div>
 
         <!-- Two Side-by-Side Panes -->
         <div class="row g-4 my-4">
-          <div class="col-lg-7">
+          <div class="col-lg-7" style="flex: 0 0 55%; max-width: 55%;">
             <div class="content-box text-center h-100">
               <h4 class="fw-bolder">Data Acquisition Setup</h4>
-              <img src="assets/stevens-data.png" alt="Data Acquisition placeholder" class="img-fluid rounded mt-3">
+              <img src="assets/stevens/data_acquisition.png" alt="Data Acquisition" class="img-fluid rounded mt-3">
             </div>
           </div>
-          <div class="col-lg-5">
+          <div class="col-lg-5" style="flex: 0 0 45%; max-width: 45%;">
             <div class="content-box text-center h-100">
               <h4 class="fw-bolder">Contour Detection</h4>
-              <img src="assets/stevens-contour.png" alt="Contour Detection placeholder" class="img-fluid rounded mt-3">
+              <img src="assets/stevens/contour_detection.png" alt="Contour Detection" class="img-fluid rounded mt-3">
             </div>
           </div>
         </div>

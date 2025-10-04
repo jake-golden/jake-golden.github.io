@@ -21,10 +21,27 @@ document.querySelectorAll(".banner").forEach(banner => {
 // Expandable Cards (click to reveal more content)
 // ==========================
 document.querySelectorAll(".expandable-card").forEach(card => {
-  card.addEventListener("click", () => {
+  card.addEventListener("click", function(e) {
+    // Prevent toggle if clicking inside a carousel or its controls
+    if (
+      e.target.closest('.carousel') ||
+      e.target.classList.contains('carousel-control-prev') ||
+      e.target.classList.contains('carousel-control-next') ||
+      e.target.classList.contains('carousel-control-prev-icon') ||
+      e.target.classList.contains('carousel-control-next-icon')
+    ) {
+      return;
+    }
     const content = card.querySelector(".expandable-content");
     if (content) {
-      content.style.display = content.style.display === "block" ? "none" : "block";
+      const isOpen = card.classList.contains("open");
+      if (isOpen) {
+        content.style.display = "none";
+        card.classList.remove("open");
+      } else {
+        content.style.display = "block";
+        card.classList.add("open");
+      }
     }
   });
 });
@@ -32,11 +49,13 @@ document.querySelectorAll(".expandable-card").forEach(card => {
 // ==========================
 // Custom Carousel for Stryker
 // ==========================
-const track = document.querySelector(".carousel-track");
-if (track) {
-  const items = document.querySelectorAll(".carousel-item-custom");
-  const prevBtn = document.querySelector(".carousel-btn.prev");
-  const nextBtn = document.querySelector(".carousel-btn.next");
+
+// Custom Carousel logic for all .carousel-container
+document.querySelectorAll('.carousel-container').forEach(function(container) {
+  const track = container.querySelector('.carousel-track');
+  const items = container.querySelectorAll('.carousel-item-custom');
+  const prevBtn = container.querySelector('.carousel-btn.prev');
+  const nextBtn = container.querySelector('.carousel-btn.next');
   let index = 0;
 
   function updateCarousel() {
@@ -44,18 +63,20 @@ if (track) {
   }
 
   if (nextBtn) {
-    nextBtn.addEventListener("click", () => {
+    nextBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
       if (index < items.length - 3) index++;
       else index = 0;
       updateCarousel();
     });
   }
-
   if (prevBtn) {
-    prevBtn.addEventListener("click", () => {
+    prevBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
       if (index > 0) index--;
       else index = items.length - 3;
       updateCarousel();
     });
   }
-}
+  updateCarousel();
+});
