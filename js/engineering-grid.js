@@ -51,6 +51,12 @@
 
   var grid = document.getElementById('engineering-grid');
   if (grid) {
-    grid.innerHTML = PROJECTS.map(cardHTML).join('');
+    // Entries flagged `draft: true` are work-in-progress pages that still need a
+    // projects-data entry (the shared banner is data-driven) but must not appear
+    // on the public grid yet. Remove the flag to promote one.
+    grid.innerHTML = PROJECTS
+      .filter(function (p) { return !p.draft; })
+      .map(cardHTML)
+      .join('');
   }
 })();

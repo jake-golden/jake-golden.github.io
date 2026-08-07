@@ -2,6 +2,21 @@
 
 Guidance for Claude Code working in this repository.
 
+## Commands
+
+**No build step** — plain HTML/CSS/JS ships as-is (there is nothing to compile or bundle, and no test/lint suite). The only tooling is asset prep via `sharp`.
+
+```bash
+# Local dev server (repo root). Also registered as launch config `portfolio-v3`.
+python3 -m http.server 8082
+
+# Asset scripts (npm; each takes a path argument, e.g. `npm run to-webp -- assets/foo`)
+npm run thumbs      # scripts/thumbs.mjs   — generate photography thumbnails
+npm run to-webp     # scripts/to-webp.mjs  — batch PNG/JPG → WebP in place
+npm run to-png      # scripts/to-png.mjs   — reverse of to-webp
+node scripts/gen-nj-map.mjs   # one-off: regenerate the NJ/Bergen County SVG map (see script header)
+```
+
 ## Project Overview
 
 Clean rebuild of Jake Golden's engineering portfolio (old version is `jake-golden-portfolio-legacy`). This is **Phase 1: code cleanup only** — visual parity with the live site, except reused UI elements (carousel, skill-card, lightbox, project card, banner) get visually unified since their current per-page inconsistency was a bug the user wanted fixed. A full visual redesign is a deliberate, separate later phase — do not get ahead of scope.

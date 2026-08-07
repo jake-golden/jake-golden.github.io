@@ -135,6 +135,27 @@ const PROJECTS = [
     }
   },
   {
+    // DRAFT — ni1.html / ni2.html are competing layout drafts that share this record
+    // (both use <body data-project="ni">). `draft: true` keeps it off the engineering
+    // grid; delete that flag and fill in the thumbnail/banner assets to publish.
+    slug: 'ni',
+    href: 'ni1.html',
+    title: 'National Instruments',
+    tagline: 'Analog V&V and DIB design for a precision LCR meter.',
+    draft: true,
+    categories: ['internship'],
+    keywords: ['analog', 'pcb', 'test'],
+    thumbnail: { webp: '', fallback: null },
+    hoverPreview: null,
+    banner: {
+      title: 'Analog Design & V&V,\nNational Instruments',
+      subheading: 'PXIe-4190 LCR Meter / SMU',
+      subtitle: 'Summer 2026 internship — Austin, TX. NI, an Emerson company.',
+      backgroundImage: null,
+      logo: null
+    }
+  },
+  {
     slug: 'stevens',
     href: 'stevens.html',
     title: 'Stevens Institute of Technology',

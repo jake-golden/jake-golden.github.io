@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="National Instruments internship: verification & validation and reference-design engineering for the PXIe-4190 LCR meter/SMU." />
+    <meta name="author" content="Jake Golden" />
+    <title>National Instruments - Jake Golden</title>
+    <script src="js/head.js"></script>
+    <style>
+      body { font-family: "Plus Jakarta Sans", sans-serif; }
+      h1, h2, h3, h4, h5, h6 { font-family: "Arial Black", Arial, sans-serif; }
+
+      .content-box { padding: 2rem; margin-bottom: 2rem; }
+
+      /* ---- Theme-reactive asset placeholder (drafts only) ---- */
+      .img-ph {
+        background: var(--surface);
+        border: 2px dashed var(--border);
+        border-radius: 8px;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        color: var(--text-muted);
+        font-size: 0.9rem; text-align: center;
+        padding: 2rem; gap: 0.5rem; min-height: 260px;
+      }
+      .img-ph .ph-icon { font-size: 2.5rem; opacity: 0.45; }
+      .img-ph .ph-title { font-weight: 700; font-size: 1rem; color: var(--text); margin: 0; font-family: "Plus Jakarta Sans", sans-serif; }
+      .img-ph .ph-desc { margin: 0; font-style: italic; }
+      .img-ph-tall { min-height: 380px; }
+      .img-ph-gal { min-height: 180px; padding: 1rem; }
+      .img-ph-sm { min-height: 150px; padding: 1rem; }
+
+      /* ---- Stat pills (from cpu.html) ---- */
+      .stat-pill {
+        background: var(--bg-elevated); border-radius: 12px; box-shadow: var(--shadow);
+        padding: 1rem 1.25rem; text-align: center; min-width: 120px; flex: 1 1 120px;
+      }
+      .stat-pill .stat-num {
+        display: block; font-family: "Arial Black", Arial, sans-serif;
+        font-size: 1.75rem; font-weight: 900; color: var(--text); line-height: 1;
+      }
+      .stat-pill .stat-label {
+        display: block; font-size: 0.75rem; color: var(--text-muted);
+        margin-top: 0.3rem; text-transform: uppercase; letter-spacing: 0.05em;
+      }
+
+      /* ---- Pipeline diagram (from cpu.html) ---- */
+      .pipeline-diagram { display: flex; align-items: center; justify-content: center; flex-wrap: nowrap; gap: 0.5rem; margin-top: 1rem; }
+      .pipeline-stage { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; min-width: 90px; }
+      .pipeline-icon {
+        width: 56px; height: 56px; border-radius: 14px;
+        background: var(--carousel-btn-bg); color: var(--carousel-btn-icon);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 1.4rem; box-shadow: var(--shadow);
+      }
+      .pipeline-label { font-size: 0.85rem; font-weight: 600; color: var(--text); text-align: center; }
+      .pipeline-arrow { color: var(--text-muted); font-size: 1.3rem; display: flex; align-items: center; align-self: flex-start; margin-top: 16px; }
+
+      /* ---- Tables (from cpu.html; hardcoded header colors replaced) ---- */
+      .isa-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .isa-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; white-space: nowrap; }
+      .isa-table th {
+        background: var(--surface-hover); color: var(--text);
+        padding: 0.55rem 0.85rem; text-align: left;
+        font-family: "Arial Black", Arial, sans-serif; font-size: 0.8rem; letter-spacing: 0.04em;
+      }
+      .isa-table td { padding: 0.45rem 0.85rem; border-bottom: 1px solid var(--border); vertical-align: middle; color: var(--text); }
+      .isa-table tr:last-child td { border-bottom: none; }
+      .isa-table tbody tr:nth-child(even) { background: var(--surface-hover); }
+      .isa-table code { background: var(--chip-bg); padding: 0.1rem 0.35rem; border-radius: 4px; font-size: 0.85rem; color: var(--text); }
+      .ni-phase-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 0.4rem; }
+      .ni-phase-dot[data-phase="1"] { background: #4da3b3; }
+      .ni-phase-dot[data-phase="2"] { background: #9c8cd4; }
+      .ni-phase-dot[data-phase="3"] { background: #d4a15a; }
+      .ni-phase-dot[data-phase="4"] { background: #c96a8e; }
+
+      /* ---- Sub-cards (from cpu.html) ---- */
+      .subcircuit-card { background: var(--bg-elevated); border-radius: 10px; box-shadow: var(--shadow); overflow: hidden; height: 100%; }
+      .subcircuit-card .sc-body { padding: 1rem; }
+      .subcircuit-card .sc-body h6 { font-family: "Arial Black", Arial, sans-serif; font-size: 0.9rem; color: var(--text); margin-bottom: 0.5rem; }
+      .subcircuit-card .sc-body ul { font-size: 0.83rem; color: var(--text-muted); padding-left: 1.25rem; margin: 0; }
+      .sc-img-wrap { border-radius: 10px 10px 0 0; overflow: hidden; }
+
+      .expandable-content { padding-left: clamp(0.5rem, 2vw, 3rem); padding-right: clamp(0.5rem, 2vw, 3rem); }
+
+      /* ---- Segmented control (shared with ni1) ---- */
+      .ni-seg { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; margin-bottom: 1.25rem; }
+      .ni-seg-btn {
+        background: none; border: 1px solid var(--border); color: var(--text-muted);
+        border-radius: 999px; padding: 0.4rem 1rem; font-size: 0.85rem; font-weight: 600;
+        cursor: pointer; transition: all 0.15s ease;
+      }
+      .ni-seg-btn:hover { background: var(--surface-hover); color: var(--text); }
+      .ni-seg-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+      .ni-seg-btn:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+      .ni-seg-panel[hidden] { display: none; }
+      .ni-seg-caption { font-size: 0.88rem; color: var(--text-muted); text-align: center; margin-top: 1rem; margin-bottom: 0; font-style: italic; }
+      .ni-svg { width: 100%; height: auto; max-width: 560px; display: block; margin: 0 auto; }
+
+      /* ---- Layer stackup (shared with ni1) ---- */
+      .ni-stack { display: flex; flex-direction: column; gap: 4px; max-width: 520px; margin: 0 auto; }
+      .ni-stack-layer {
+        display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+        padding: 0.65rem 1rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600;
+        border-left: 5px solid var(--border); background: var(--surface); color: var(--text);
+        transition: transform 0.15s ease;
+      }
+      .ni-stack-layer:hover { transform: translateX(4px); }
+      .ni-stack-layer .ni-layer-num { color: var(--text-muted); font-size: 0.75rem; font-weight: 700; }
+      .ni-stack-layer .ni-layer-net { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); }
+      .ni-stack-layer[data-net="signal"] { border-left-color: var(--teal); }
+      .ni-stack-layer[data-net="guard"]  { border-left-color: var(--purple); }
+      .ni-stack-layer[data-net="ground"] { border-left-color: var(--text-muted); }
+      .ni-stack-caption { font-size: 0.88rem; color: var(--text-muted); text-align: center; margin-top: 1rem; margin-bottom: 0; }
+
+      /* ---- Explorer tabs (ni2 only) ---- */
+      .ni-tabs {
+        display: flex; gap: 0.25rem; border-bottom: 1px solid var(--border);
+        margin-bottom: 1.5rem; overflow-x: auto; scrollbar-width: none; flex-wrap: nowrap;
+      }
+      .ni-tabs::-webkit-scrollbar { display: none; }
+      .ni-tab {
+        background: none; border: 0; border-bottom: 2px solid transparent;
+        color: var(--text-muted); font-size: 0.9rem; font-weight: 700;
+        padding: 0.6rem 1.1rem; white-space: nowrap; cursor: pointer;
+        display: flex; align-items: center; gap: 0.45rem; transition: color 0.15s ease, background 0.15s ease;
+      }
+      .ni-tab:hover { color: var(--text); background: var(--surface-hover); }
+      .ni-tab.active { color: var(--text); border-bottom-color: var(--teal); }
+      .ni-tab:focus-visible { outline: 2px solid var(--teal); outline-offset: -2px; }
+      .ni-panel { display: none; }
+      .ni-panel.active { display: block; animation: niFade 0.18s ease; }
+      @keyframes niFade { from { opacity: 0; transform: translateY(4px); } }
+      .ni-panel-head { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-muted); font-weight: 700; margin-bottom: 0.5rem; }
+
+      @media (max-width: 768px) {
+        .pipeline-arrow { display: none; }
+        .pipeline-diagram { gap: 0.35rem; }
+        .pipeline-stage { min-width: 0; flex: 1 1 0; }
+        .pipeline-icon { width: 42px; height: 42px; font-size: 1.05rem; border-radius: 10px; }
+        .pipeline-label { font-size: 0.65rem; white-space: normal; line-height: 1.1; }
+        .isa-table-wrap::after {
+          content: "← scroll →"; display: block; text-align: center;
+          font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;
+        }
+        .ni-tab { font-size: 0.8rem; padding: 0.5rem 0.75rem; }
+      }
+      @media (max-width: 991px) {
+        .expandable-content { padding-left: 0; padding-right: 0; }
+      }
+      @media (max-width: 380px) {
+        .pipeline-icon { width: 34px; height: 34px; font-size: 0.9rem; border-radius: 8px; }
+        .pipeline-label { font-size: 0.58rem; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .ni-panel.active { animation: none; }
+        .ni-stack-layer { transition: none; }
+      }
+    </style>
+  </head>
+  <body class="d-flex flex-column h-100" data-project="ni">
+    <main class="flex-shrink-0">
+      <div id="navbar-placeholder"></div>
+      <script src="js/projects-data.js"></script>
+      <script src="js/navbar.js"></script>
+
+      <div id="banner-placeholder"></div>
+      <script src="js/project-banner.js"></script>
+
+      <section class="container px-5 mt-5 mb-5">
+
+        <!-- ============ S1 · Stat band + framing ============ -->
+        <div class="content-box">
+          <div class="row g-4 align-items-center">
+            <div class="col-lg-7">
+              <h3 class="fw-bolder">Precision Impedance, at the Spring-Pin Plane</h3>
+              <p class="lead mb-3">
+                Verification, validation, and reference-design engineering for the
+                <span class="text-highlighted">PXIe-4190</span> LCR meter/SMU — NI's precision impedance
+                module for semiconductor test systems.
+              </p>
+              <p class="mb-0">
+                At sub-picofarad and picoampere sensitivity up to 2&nbsp;MHz, the instrument is not the
+                limiting factor — the cable and the customer's board are. I authored and executed a
+                system-level V&amp;V test plan measuring performance where the DUT actually sits, and designed
+                a Device Interface Board that turns qualitative layout guidance into
+                <span class="text-highlighted">characterized numbers</span>.
+              </p>
+            </div>
+            <div class="col-lg-5">
+              <div class="img-ph img-ph-tall">
+                <i class="bi bi-cpu ph-icon"></i>
+                <p class="ph-title">PXIe-4190 + DIB</p>
+                <p class="ph-desc">Hero photo — instrument, cable, characterization board</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap gap-3 justify-content-center mt-4">
+            <div class="stat-pill"><span class="stat-num">2 MHz</span><span class="stat-label">Top frequency</span></div>
+            <div class="stat-pill"><span class="stat-num">4TP</span><span class="stat-label">Kelvin sensing</span></div>
+            <div class="stat-pill"><span class="stat-num">15+</span><span class="stat-label">Test sections</span></div>
+            <div class="stat-pill"><span class="stat-num">4</span><span class="stat-label">Gated phases</span></div>
+            <div class="stat-pill"><span class="stat-num">6</span><span class="stat-label">PCB layers</span></div>
+            <div class="stat-pill"><span class="stat-num">3</span><span class="stat-label">Cross-sections</span></div>
+            <div class="stat-pill"><span class="stat-num">1</span><span class="stat-label">Stackup</span></div>
+          </div>
+        </div>
+
+        <!-- ============ S2 · Explorer panel ============ -->
+        <div class="content-box" id="niExplorer">
+          <div class="ni-tabs" role="tablist" aria-label="Project areas">
+            <button class="ni-tab active" role="tab" type="button" data-panel="theory"  aria-selected="true"><i class="bi bi-lightbulb"></i> Theory</button>
+            <button class="ni-tab" role="tab" type="button" data-panel="vv"     aria-selected="false"><i class="bi bi-list-check"></i> V&amp;V Plan</button>
+            <button class="ni-tab" role="tab" type="button" data-panel="dib"    aria-selected="false"><i class="bi bi-motherboard"></i> DIB Design</button>
+            <button class="ni-tab" role="tab" type="button" data-panel="layout" aria-selected="false"><i class="bi bi-layers"></i> Layout</button>
+            <button class="ni-tab" role="tab" type="button" data-panel="data"   aria-selected="false"><i class="bi bi-graph-up"></i> Data</button>
+          </div>
+
+          <div class="ni-panels">
+
+            <!-- ---- Panel: Theory ---- -->
+            <div class="ni-panel active" data-panel="theory" role="tabpanel">
+              <p class="ni-panel-head">01 / Measurement Theory</p>
+              <h5 class="fw-bolder">4-Terminal-Pair Kelvin Connection</h5>
+              <p class="text-muted" style="font-size:0.9rem;">Force and sense separated so lead and contact resistance never enter the measured value.</p>
+              <div class="pipeline-diagram mb-4">
+                <div class="pipeline-stage"><div class="pipeline-icon"><i class="bi bi-lightning-charge"></i></div><div class="pipeline-label">H<sub>CUR</sub></div></div>
+                <div class="pipeline-arrow"><i class="bi bi-arrow-right"></i></div>
+                <div class="pipeline-stage"><div class="pipeline-icon"><i class="bi bi-rulers"></i></div><div class="pipeline-label">H<sub>POT</sub></div></div>
+                <div class="pipeline-arrow"><i class="bi bi-arrow-right"></i></div>
+                <div class="pipeline-stage"><div class="pipeline-icon"><i class="bi bi-box"></i></div><div class="pipeline-label">DUT</div></div>
+                <div class="pipeline-arrow"><i class="bi bi-arrow-right"></i></div>
+                <div class="pipeline-stage"><div class="pipeline-icon"><i class="bi bi-rulers"></i></div><div class="pipeline-label">L<sub>POT</sub></div></div>
+                <div class="pipeline-arrow"><i class="bi bi-arrow-right"></i></div>
+                <div class="pipeline-stage"><div class="pipeline-icon"><i class="bi bi-lightning-charge"></i></div><div class="pipeline-label">L<sub>CUR</sub></div></div>
+              </div>
+
+              <div class="row g-4 align-items-center">
+                <div class="col-lg-7">
+                  <div class="ni-seg" id="niGuardSeg">
+                    <button class="ni-seg-btn active" type="button" data-panel="unguarded">Unguarded</button>
+                    <button class="ni-seg-btn" type="button" data-panel="guarded">Guarded</button>
+                  </div>
+                  <div class="ni-seg-panel" data-panel="unguarded">
+                    <svg class="ni-svg" viewBox="0 0 560 240" role="img" aria-label="Unguarded trace leaking current to ground">
+                      <rect x="40" y="40" width="480" height="34" rx="6" fill="var(--surface)" stroke="var(--teal)" stroke-width="2"/>
+                      <text x="280" y="62" text-anchor="middle" font-size="14" font-weight="700" fill="var(--teal)">SIGNAL</text>
+                      <rect x="40" y="180" width="480" height="30" rx="4" fill="var(--surface)" stroke="var(--text-muted)" stroke-width="2"/>
+                      <text x="280" y="200" text-anchor="middle" font-size="13" font-weight="700" fill="var(--text-muted)">GROUND PLANE</text>
+                      <g stroke="#c96a8e" stroke-width="2" fill="none" stroke-dasharray="5 4">
+                        <path d="M120 76 L120 178"/><path d="M240 76 L240 178"/><path d="M360 76 L360 178"/><path d="M480 76 L480 178"/>
+                      </g>
+                      <g fill="#c96a8e">
+                        <path d="M120 178 l-5 -9 h10 z"/><path d="M240 178 l-5 -9 h10 z"/>
+                        <path d="M360 178 l-5 -9 h10 z"/><path d="M480 178 l-5 -9 h10 z"/>
+                      </g>
+                      <text x="280" y="130" text-anchor="middle" font-size="13" font-weight="700" fill="#c96a8e">leakage stolen from the measurement</text>
+                      <text x="280" y="150" text-anchor="middle" font-size="12" fill="var(--text-muted)">full ΔV across every stray capacitance</text>
+                    </svg>
+                    <p class="ni-seg-caption">Stray capacitance to ground sees the full signal swing and bleeds current the meter counts as DUT admittance.</p>
+                  </div>
+                  <div class="ni-seg-panel" data-panel="guarded" hidden>
+                    <svg class="ni-svg" viewBox="0 0 560 240" role="img" aria-label="Guarded trace with guard buffer tracking signal potential">
+                      <rect x="40" y="30" width="480" height="32" rx="6" fill="var(--surface)" stroke="var(--teal)" stroke-width="2"/>
+                      <text x="280" y="51" text-anchor="middle" font-size="14" font-weight="700" fill="var(--teal)">SIGNAL</text>
+                      <rect x="40" y="96" width="480" height="32" rx="6" fill="var(--surface)" stroke="var(--purple)" stroke-width="2"/>
+                      <text x="280" y="117" text-anchor="middle" font-size="14" font-weight="700" fill="var(--purple)">GUARD — driven to V(signal)</text>
+                      <rect x="40" y="180" width="480" height="30" rx="4" fill="var(--surface)" stroke="var(--text-muted)" stroke-width="2"/>
+                      <text x="280" y="200" text-anchor="middle" font-size="13" font-weight="700" fill="var(--text-muted)">GROUND PLANE</text>
+                      <g stroke="var(--purple)" stroke-width="2" fill="none" stroke-dasharray="5 4">
+                        <path d="M150 62 L150 94"/><path d="M280 62 L280 94"/><path d="M410 62 L410 94"/>
+                      </g>
+                      <text x="280" y="84" text-anchor="middle" font-size="12" font-weight="700" fill="var(--purple)">ΔV = 0 → I = 0</text>
+                      <g stroke="var(--text-muted)" stroke-width="2" fill="none" stroke-dasharray="5 4">
+                        <path d="M150 128 L150 178"/><path d="M280 128 L280 178"/><path d="M410 128 L410 178"/>
+                      </g>
+                      <text x="280" y="155" text-anchor="middle" font-size="12" fill="var(--text-muted)">leakage sourced by the guard buffer</text>
+                    </svg>
+                    <p class="ni-seg-caption">The guard absorbs the leakage. The signal path only ever sees the device under test.</p>
+                  </div>
+                </div>
+                <div class="col-lg-5">
+                  <h6 class="fw-bolder">Effect → Countermeasure</h6>
+                  <div class="isa-table-wrap">
+                    <table class="isa-table">
+                      <thead><tr><th>Error source</th><th>Countermeasure</th></tr></thead>
+                      <tbody>
+                        <tr><td>Lead &amp; contact resistance</td><td>4TP Kelvin sensing</td></tr>
+                        <tr><td>Stray capacitance leakage</td><td>Driven guard</td></tr>
+                        <tr><td>External field pickup</td><td>Shield</td></tr>
+                        <tr><td>Cable electrical length</td><td>Controlled length + comp</td></tr>
+                        <tr><td>Residual fixture parasitics</td><td>Open/short/load comp</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ---- Panel: V&V ---- -->
+            <div class="ni-panel" data-panel="vv" role="tabpanel">
+              <p class="ni-panel-head">02 / Verification &amp; Validation</p>
+              <h5 class="fw-bolder">15+ Sections, Four Gated Phases</h5>
+              <p style="font-size:0.92rem;">
+                The tests themselves were the straightforward part. The judgment was in
+                <strong>execution sequencing</strong> — several sections silently depend on earlier ones
+                passing, and the original document numbering had those dependencies backwards.
+              </p>
+              <div class="ni-seg" id="niVvSeg">
+                <button class="ni-seg-btn active" type="button" data-phase="all">All phases</button>
+                <button class="ni-seg-btn" type="button" data-phase="1">1 · Physical &amp; DC</button>
+                <button class="ni-seg-btn" type="button" data-phase="2">2 · Accuracy</button>
+                <button class="ni-seg-btn" type="button" data-phase="3">3 · Precision</button>
+                <button class="ni-seg-btn" type="button" data-phase="4">4 · Settling</button>
+              </div>
+              <div class="isa-table-wrap">
+                <table class="isa-table">
+                  <thead><tr><th>Test section</th><th>Phase</th><th>Depends on</th><th>Gate criterion</th></tr></thead>
+                  <tbody id="niVvBody">
+                    <tr data-phase="1"><td>Physical connectivity &amp; pinout</td><td><span class="ni-phase-dot" data-phase="1"></span>1</td><td>—</td><td>All nets continuous</td></tr>
+                    <tr data-phase="1"><td>Conductor DC resistance</td><td><span class="ni-phase-dot" data-phase="1"></span>1</td><td>Connectivity</td><td>Within budget</td></tr>
+                    <tr data-phase="1"><td>Shield / guard isolation</td><td><span class="ni-phase-dot" data-phase="1"></span>1</td><td>Connectivity</td><td>No shorts</td></tr>
+                    <tr data-phase="1"><td>Insulation resistance &amp; DC leakage</td><td><span class="ni-phase-dot" data-phase="1"></span>1</td><td>Isolation</td><td>Below leakage limit</td></tr>
+                    <tr data-phase="2"><td>Signal-to-signal capacitance</td><td><span class="ni-phase-dot" data-phase="2"></span>2</td><td>Isolation</td><td>Characterized</td></tr>
+                    <tr data-phase="2"><td>Signal-to-shield capacitance</td><td><span class="ni-phase-dot" data-phase="2"></span>2</td><td>Isolation</td><td>Characterized</td></tr>
+                    <tr data-phase="2"><td>Open / short / load compensation</td><td><span class="ni-phase-dot" data-phase="2"></span>2</td><td>Capacitance</td><td>Converges</td></tr>
+                    <tr data-phase="2"><td>LCR measurement accuracy</td><td><span class="ni-phase-dot" data-phase="2"></span>2</td><td>Compensation</td><td>Within spec</td></tr>
+                    <tr data-phase="2"><td>Comp. stability vs. temperature</td><td><span class="ni-phase-dot" data-phase="2"></span>2</td><td>Compensation</td><td>Drift bounded</td></tr>
+                    <tr data-phase="2"><td>Comp. stability vs. humidity</td><td><span class="ni-phase-dot" data-phase="2"></span>2</td><td>Compensation</td><td>Drift bounded</td></tr>
+                    <tr data-phase="3"><td>Repeatability across docking cycles</td><td><span class="ni-phase-dot" data-phase="3"></span>3</td><td>LCR accuracy</td><td>σ within limit</td></tr>
+                    <tr data-phase="3"><td>Measurement aperture sweep</td><td><span class="ni-phase-dot" data-phase="3"></span>3</td><td>LCR accuracy</td><td>Characterized</td></tr>
+                    <tr data-phase="3"><td>Source delay sweep</td><td><span class="ni-phase-dot" data-phase="3"></span>3</td><td>Aperture</td><td>Characterized</td></tr>
+                    <tr data-phase="3"><td>Short-term noise floor</td><td><span class="ni-phase-dot" data-phase="3"></span>3</td><td>Aperture</td><td>Baseline set</td></tr>
+                    <tr data-phase="4"><td>Settling time characterization</td><td><span class="ni-phase-dot" data-phase="4"></span>4</td><td>Source delay</td><td>Settled</td></tr>
+                    <tr data-phase="4"><td>DC bias dependence of capacitance</td><td><span class="ni-phase-dot" data-phase="4"></span>4</td><td>Settling time</td><td>Above noise floor</td></tr>
+                    <tr data-phase="4"><td>Frequency sweep to 2 MHz</td><td><span class="ni-phase-dot" data-phase="4"></span>4</td><td>Settling time</td><td>Characterized</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="ni-seg-caption">Run out of order, this plan produces numbers that look valid and mean nothing — compensation before connectivity bakes an intermittent contact into every later result.</p>
+            </div>
+
+            <!-- ---- Panel: DIB ---- -->
+            <div class="ni-panel" data-panel="dib" role="tabpanel">
+              <p class="ni-panel-head">03 / Reference Design</p>
+              <h5 class="fw-bolder">Four Customer-Introduced Error Sources</h5>
+              <p style="font-size:0.92rem;">Each isolated on its own characterization channel, so the effect can be measured rather than asserted.</p>
+              <div class="row row-cols-1 row-cols-md-2 g-4 mb-4">
+                <div class="col">
+                  <div class="subcircuit-card">
+                    <div class="sc-img-wrap"><div class="img-ph img-ph-sm" style="border-radius:10px 10px 0 0; border-width:0 0 2px 0;"><i class="bi bi-rulers ph-icon"></i><p class="ph-title">Trace length channels</p></div></div>
+                    <div class="sc-body"><h6>Trace Length</h6><ul>
+                      <li>Matched channels at several routed lengths</li>
+                      <li>Maps error growth vs. electrical length at 2 MHz</li>
+                    </ul></div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="subcircuit-card">
+                    <div class="sc-img-wrap"><div class="img-ph img-ph-sm" style="border-radius:10px 10px 0 0; border-width:0 0 2px 0;"><i class="bi bi-layers-half ph-icon"></i><p class="ph-title">Via / board transitions</p></div></div>
+                    <div class="sc-body"><h6>Impedance Discontinuities</h6><ul>
+                      <li>Deliberate vias and layer changes</li>
+                      <li>Board-to-board connector transitions</li>
+                    </ul></div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="subcircuit-card">
+                    <div class="sc-img-wrap"><div class="img-ph img-ph-sm" style="border-radius:10px 10px 0 0; border-width:0 0 2px 0;"><i class="bi bi-toggles ph-icon"></i><p class="ph-title">Switching topology</p></div></div>
+                    <div class="sc-body"><h6>Switching Topology</h6><ul>
+                      <li>Naive single-switch mux vs. guarded pair</li>
+                      <li>PhotoMOS relays, opto-isolated drivers</li>
+                    </ul></div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="subcircuit-card">
+                    <div class="sc-img-wrap"><div class="img-ph img-ph-sm" style="border-radius:10px 10px 0 0; border-width:0 0 2px 0;"><i class="bi bi-diagram-2 ph-icon"></i><p class="ph-title">Grounding schemes</p></div></div>
+                    <div class="sc-body"><h6>Grounding Scheme</h6><ul>
+                      <li>Guard-referenced vs. ground-referenced</li>
+                      <li>Includes a deliberately non-ideal control</li>
+                    </ul></div>
+                  </div>
+                </div>
+              </div>
+
+              <h5 class="fw-bolder">The FET Guard</h5>
+              <p style="font-size:0.92rem;">
+                A single switch guards the DUT-side node but leaves the <strong>switch package itself</strong>
+                unguarded. Splitting each conductor across two series PhotoMOS switches and clamping the
+                intermediate node to guard potential terminates the package parasitics into the buffer instead
+                of the measurement.
+              </p>
+              <div class="ni-seg" id="niFetSeg">
+                <button class="ni-seg-btn active" type="button" data-panel="naive">Single switch</button>
+                <button class="ni-seg-btn" type="button" data-panel="fetguard">FET guard (series pair)</button>
+              </div>
+              <div class="ni-seg-panel" data-panel="naive">
+                <svg class="ni-svg" viewBox="0 0 560 200" role="img" aria-label="Naive single switch with unguarded leakage">
+                  <line x1="30" y1="70" x2="200" y2="70" stroke="var(--teal)" stroke-width="3"/>
+                  <rect x="200" y="45" width="90" height="50" rx="6" fill="var(--surface)" stroke="var(--teal)" stroke-width="2"/>
+                  <text x="245" y="75" text-anchor="middle" font-size="12" font-weight="700" fill="var(--teal)">SW</text>
+                  <line x1="290" y1="70" x2="500" y2="70" stroke="var(--teal)" stroke-width="3"/>
+                  <text x="30" y="58" font-size="12" fill="var(--text-muted)">from instrument</text>
+                  <text x="500" y="58" text-anchor="end" font-size="12" fill="var(--text-muted)">to DUT</text>
+                  <rect x="30" y="160" width="500" height="26" rx="4" fill="var(--surface)" stroke="var(--text-muted)" stroke-width="2"/>
+                  <text x="280" y="178" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text-muted)">GROUND</text>
+                  <path d="M245 95 L245 158" stroke="#c96a8e" stroke-width="2" stroke-dasharray="5 4" fill="none"/>
+                  <path d="M245 158 l-5 -9 h10 z" fill="#c96a8e"/>
+                  <text x="255" y="130" font-size="12" font-weight="700" fill="#c96a8e">package leakage lands on the signal</text>
+                </svg>
+                <p class="ni-seg-caption">The switch is in the guarded path, but nothing guards the switch.</p>
+              </div>
+              <div class="ni-seg-panel" data-panel="fetguard" hidden>
+                <svg class="ni-svg" viewBox="0 0 560 200" role="img" aria-label="FET guard with guard-clamped intermediate node">
+                  <line x1="20" y1="70" x2="150" y2="70" stroke="var(--teal)" stroke-width="3"/>
+                  <rect x="150" y="45" width="80" height="50" rx="6" fill="var(--surface)" stroke="var(--teal)" stroke-width="2"/>
+                  <text x="190" y="75" text-anchor="middle" font-size="12" font-weight="700" fill="var(--teal)">SW1</text>
+                  <line x1="230" y1="70" x2="330" y2="70" stroke="var(--teal)" stroke-width="3"/>
+                  <rect x="330" y="45" width="80" height="50" rx="6" fill="var(--surface)" stroke="var(--teal)" stroke-width="2"/>
+                  <text x="370" y="75" text-anchor="middle" font-size="12" font-weight="700" fill="var(--teal)">SW2</text>
+                  <line x1="410" y1="70" x2="540" y2="70" stroke="var(--teal)" stroke-width="3"/>
+                  <circle cx="280" cy="70" r="5" fill="var(--purple)"/>
+                  <path d="M280 70 L280 130" stroke="var(--purple)" stroke-width="3" fill="none"/>
+                  <rect x="180" y="130" width="200" height="34" rx="6" fill="var(--surface)" stroke="var(--purple)" stroke-width="2"/>
+                  <text x="280" y="152" text-anchor="middle" font-size="12" font-weight="700" fill="var(--purple)">GUARD BUFFER</text>
+                  <text x="290" y="105" font-size="11" font-weight="700" fill="var(--purple)">intermediate node clamped to guard</text>
+                  <text x="20" y="58" font-size="12" fill="var(--text-muted)">from instrument</text>
+                  <text x="540" y="58" text-anchor="end" font-size="12" fill="var(--text-muted)">to DUT</text>
+                </svg>
+                <p class="ni-seg-caption">Packages leak into the buffer, not the measurement.</p>
+              </div>
+            </div>
+
+            <!-- ---- Panel: Layout ---- -->
+            <div class="ni-panel" data-panel="layout" role="tabpanel">
+              <p class="ni-panel-head">04 / PCB Engineering</p>
+              <h5 class="fw-bolder">One Stackup, Three Cross-Sections</h5>
+              <div class="row g-4 align-items-center">
+                <div class="col-lg-5">
+                  <p style="font-size:0.92rem;">
+                    Conventional PCB design references everything to ground. This board
+                    <strong>inverts that</strong>: the plane adjacent to each sensitive signal is a
+                    <span class="text-highlighted">driven guard</span>.
+                  </p>
+                  <p class="mb-0" style="font-size:0.92rem;">
+                    Three cross-sections were needed, but adding layers wasn't an option. Solved with
+                    <strong>per-region, per-channel net reassignment</strong> — the same six physical layers
+                    take different net roles in different board regions.
+                  </p>
+                </div>
+                <div class="col-lg-7">
+                  <div class="ni-seg" id="niStackSeg">
+                    <button class="ni-seg-btn active" type="button" data-cross="0">Staggered guard</button>
+                    <button class="ni-seg-btn" type="button" data-cross="1">3-layer fallback</button>
+                    <button class="ni-seg-btn" type="button" data-cross="2">Grounded-DUT control</button>
+                  </div>
+                  <div class="ni-stack" id="niStack"></div>
+                  <p class="ni-stack-caption" id="niStackCaption"></p>
+                </div>
+              </div>
+              <div class="row g-4 mt-1">
+                <div class="col-lg-6">
+                  <div class="img-ph"><i class="bi bi-bounding-box ph-icon"></i>
+                    <p class="ph-title">Xpedition layout — guard-referenced region</p>
+                    <p class="ph-desc">Board layout with channel regions labeled</p></div>
+                </div>
+                <div class="col-lg-6">
+                  <h6 class="fw-bolder">Siemens Xpedition Work</h6>
+                  <ul style="font-size:0.9rem;">
+                    <li>Schematic capture for all characterization channels</li>
+                    <li>Padstack, cell, and part library creation from scratch</li>
+                    <li>Controlled-impedance stackup configuration</li>
+                    <li>Mechanical drawing implementation for fabrication</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- ---- Panel: Data ---- -->
+            <div class="ni-panel" data-panel="data" role="tabpanel">
+              <p class="ni-panel-head">05 / Software &amp; Analysis</p>
+              <h5 class="fw-bolder">Acquisition Pipeline</h5>
+              <div class="pipeline-diagram mb-4">
+                <div class="pipeline-stage"><div class="pipeline-icon"><i class="bi bi-code-square"></i></div><div class="pipeline-label">LabVIEW VI</div></div>
+                <div class="pipeline-arrow"><i class="bi bi-arrow-right"></i></div>
+                <div class="pipeline-stage"><div class="pipeline-icon"><i class="bi bi-sliders"></i></div><div class="pipeline-label">Timing<br>config</div></div>
+                <div class="pipeline-arrow"><i class="bi bi-arrow-right"></i></div>
+                <div class="pipeline-stage"><div class="pipeline-icon"><i class="bi bi-list-ol"></i></div><div class="pipeline-label">Advanced<br>Sequence</div></div>
+                <div class="pipeline-arrow"><i class="bi bi-arrow-right"></i></div>
+                <div class="pipeline-stage"><div class="pipeline-icon"><i class="bi bi-file-earmark-binary"></i></div><div class="pipeline-label">TDMS<br>per DUT</div></div>
+                <div class="pipeline-arrow"><i class="bi bi-arrow-right"></i></div>
+                <div class="pipeline-stage"><div class="pipeline-icon"><i class="bi bi-graph-up"></i></div><div class="pipeline-label">Regression</div></div>
+              </div>
+              <div class="row g-4">
+                <div class="col-lg-7">
+                  <div class="isa-table-wrap">
+                    <table class="isa-table">
+                      <thead><tr><th>Element</th><th>Implementation</th><th>Why</th></tr></thead>
+                      <tbody>
+                        <tr><td>Source delay</td><td><code>NI-DCPower</code></td><td>Time-resolved settling capture</td></tr>
+                        <tr><td>Measurement aperture</td><td><code>NI-DCPower</code></td><td>Noise floor vs. speed</td></tr>
+                        <tr><td>Multi-trial acquisition</td><td>Advanced Sequence</td><td>Hardware-sequenced, no jitter</td></tr>
+                        <tr><td>Data logging</td><td><code>writeTDMSFile</code></td><td>One file per DUT</td></tr>
+                        <tr><td>Run metadata</td><td>JSON-serialized config</td><td>Files self-describe settings</td></tr>
+                        <tr><td>Settings passing</td><td>Typedef cluster</td><td>No drift between VIs</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="col-lg-5">
+                  <div class="img-ph"><i class="bi bi-diagram-2 ph-icon"></i>
+                    <p class="ph-title">TDMS file architecture</p>
+                    <p class="ph-desc">File → group → channel, one file per DUT</p></div>
+                </div>
+              </div>
+              <p class="ni-seg-caption mt-3">
+                Effects were judged by regression slope against the characterized noise floor — not raw
+                correlation. A tight fit on an effect smaller than the noise is still nothing.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ============ S3 · Deep-dive tiles ============ -->
+        <h2 class="fw-bolder text-center mb-4">Deep Dives</h2>
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="card shadow expandable-card">
+              <div class="card-body">
+                <h5 class="fw-bolder">The Auto-Balancing Bridge</h5>
+                <p class="text-muted"><span class="expand-hint">Click to expand</span></p>
+                <div class="expandable-content">
+                  <p>A null detector holds the low terminal at virtual ground while an I-V converter measures
+                    exactly the current the DUT sources.</p>
+                  <div id="carouselDib" class="carousel slide media-carousel mb-3" data-bs-ride="false">
+                    <div class="carousel-inner" style="max-height:240px;">
+                      <div class="carousel-item active"><div class="d-flex justify-content-center align-items-center w-100 h-100">
+                        <div class="img-ph img-ph-gal w-100"><i class="bi bi-diagram-2 ph-icon"></i><p class="ph-title">Bridge block diagram</p></div></div></div>
+                      <div class="carousel-item"><div class="d-flex justify-content-center align-items-center w-100 h-100">
+                        <div class="img-ph img-ph-gal w-100"><i class="bi bi-activity ph-icon"></i><p class="ph-title">Balance error vs. frequency</p></div></div></div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselDib" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="visually-hidden">Previous</span></button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselDib" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span><span class="visually-hidden">Next</span></button>
+                  </div>
+                  <div id="desc-carouselDib" class="mb-3 text-muted" style="font-size:0.85rem;">
+                    <div class="desc-slide">Null detector, range resistor, I-V converter, vector ratio detector.</div>
+                    <div class="desc-slide d-none">Balance quality degrades with frequency — why 2 MHz is the ceiling.</div>
+                  </div>
+                  <ul class="mb-0">
+                    <li>Low terminal held at virtual ground by feedback, not a physical short</li>
+                    <li>Impedance from the complex ratio of applied voltage to measured current</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card shadow expandable-card">
+              <div class="card-body">
+                <h5 class="fw-bolder">Why 2 MHz Turns Cables Into Transmission Lines</h5>
+                <p class="text-muted"><span class="expand-hint">Click to expand</span></p>
+                <div class="expandable-content">
+                  <p>At DC a cable is a wire. At 2 MHz it is a distributed network whose length changes the
+                    impedance the instrument thinks it sees.</p>
+                  <div class="img-ph mb-3"><i class="bi bi-activity ph-icon"></i>
+                    <p class="ph-title">Cable model: lumped vs. distributed</p>
+                    <p class="ph-desc">Equivalent circuits with the error term called out</p></div>
+                  <ul class="mb-0">
+                    <li>Cable C and L stop behaving as single lumped elements</li>
+                    <li>Electrical length shifts measured phase — and therefore D and Q</li>
+                    <li>Motivates characterizing at the spring-pin plane</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card shadow expandable-card">
+              <div class="card-body">
+                <h5 class="fw-bolder">PhotoMOS Selection &amp; Driver Circuitry</h5>
+                <p class="text-muted"><span class="expand-hint">Click to expand</span></p>
+                <div class="expandable-content">
+                  <div class="img-ph mb-3"><i class="bi bi-cpu ph-icon"></i>
+                    <p class="ph-title">FET guard schematic (Xpedition capture)</p>
+                    <p class="ph-desc">Series switch pair, guard tap, opto-isolated drive</p></div>
+                  <ul class="mb-0">
+                    <li>Selected on off-state leakage and C<sub>off</sub>, not R<sub>on</sub> — the usual criterion is the wrong one here</li>
+                    <li>Opto-isolated drivers keep control-side noise out of the analog domain</li>
+                    <li>Guarded multiplexer topology extended across all channels</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card shadow expandable-card">
+              <div class="card-body">
+                <h5 class="fw-bolder">Sensitivity vs. the Noise Floor</h5>
+                <p class="text-muted"><span class="expand-hint">Click to expand</span></p>
+                <div class="expandable-content">
+                  <p>An effect can be highly correlated and still meaningless if it's smaller than the
+                    measurement noise. Raw correlation answers the wrong question.</p>
+                  <div class="img-ph mb-3"><i class="bi bi-graph-up ph-icon"></i>
+                    <p class="ph-title">Sensitivity plot vs. noise floor</p>
+                    <p class="ph-desc">Illustrative — regression slope with noise band overlaid</p></div>
+                  <ul class="mb-0">
+                    <li>Regression slope gives effect size in physical units</li>
+                    <li>Compared against the characterized noise floor, not r²</li>
+                    <li>Decided whether DC bias dependence of capacitance was real or artifact</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============ S4 · Gallery strip ============ -->
+        <h2 class="fw-bolder text-center mt-5">Summer in Austin</h2>
+        <div class="carousel-container py-4">
+          <button class="carousel-btn prev">&#10094;</button>
+          <div class="carousel-track">
+            <div class="carousel-item-custom"><div class="img-ph img-ph-gal"><i class="bi bi-camera ph-icon"></i><p class="ph-title">Lab bench setup</p></div></div>
+            <div class="carousel-item-custom"><div class="img-ph img-ph-gal"><i class="bi bi-camera ph-icon"></i><p class="ph-title">First DIB bring-up</p></div></div>
+            <div class="carousel-item-custom"><div class="img-ph img-ph-gal"><i class="bi bi-camera ph-icon"></i><p class="ph-title">Intern team</p></div></div>
+            <div class="carousel-item-custom"><div class="img-ph img-ph-gal"><i class="bi bi-camera ph-icon"></i><p class="ph-title">NI Austin campus</p></div></div>
+            <div class="carousel-item-custom"><div class="img-ph img-ph-gal"><i class="bi bi-camera ph-icon"></i><p class="ph-title">Final presentation</p></div></div>
+            <div class="carousel-item-custom"><div class="img-ph img-ph-gal"><i class="bi bi-camera ph-icon"></i><p class="ph-title">Team outing</p></div></div>
+          </div>
+          <button class="carousel-btn next">&#10095;</button>
+        </div>
+
+        <!-- ============ S5 · Skills ============ -->
+        <div class="row row-cols-1 row-cols-md-3 g-3 py-4">
+          <div class="col"><div class="skill-item">Kelvin Sensing (4TP)</div></div>
+          <div class="col"><div class="skill-item">Guarding &amp; Shielding</div></div>
+          <div class="col"><div class="skill-item">Siemens Xpedition</div></div>
+          <div class="col"><div class="skill-item">Controlled-Impedance Stackup</div></div>
+          <div class="col"><div class="skill-item">PhotoMOS Switching</div></div>
+          <div class="col"><div class="skill-item">V&amp;V Test Planning</div></div>
+          <div class="col"><div class="skill-item">LabVIEW</div></div>
+          <div class="col"><div class="skill-item">NI-DCPower</div></div>
+          <div class="col"><div class="skill-item">TDMS Data Architecture</div></div>
+          <div class="col"><div class="skill-item">Regression &amp; Sensitivity Analysis</div></div>
+        </div>
+      </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+    <script src="js/footer.js"></script>
+    <script src="js/footer-robot.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/media-carousel.js"></script>
+    <script src="js/gallery-strip.js"></script>
+    <script src="js/lightbox.js"></script>
+
+    <script>
+      // ---- Explorer tabs ----
+      (function () {
+        var root = document.getElementById('niExplorer');
+        if (!root) return;
+        var tabs = Array.prototype.slice.call(root.querySelectorAll('.ni-tab'));
+        var panels = Array.prototype.slice.call(root.querySelectorAll('.ni-panel'));
+
+        function show(key, push) {
+          if (!tabs.some(function (t) { return t.dataset.panel === key; })) return;
+          tabs.forEach(function (t) {
+            var on = t.dataset.panel === key;
+            t.classList.toggle('active', on);
+            t.setAttribute('aria-selected', on ? 'true' : 'false');
+          });
+          panels.forEach(function (p) { p.classList.toggle('active', p.dataset.panel === key); });
+          if (push && history.replaceState) history.replaceState(null, '', '#tab-' + key);
+        }
+
+        tabs.forEach(function (tab, i) {
+          tab.addEventListener('click', function () { show(tab.dataset.panel, true); });
+          tab.addEventListener('keydown', function (e) {
+            if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+            e.preventDefault();
+            var next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+            next.focus();
+            show(next.dataset.panel, true);
+          });
+        });
+
+        // Deep-link support: #tab-layout opens the Layout panel on load.
+        var hash = (location.hash || '').replace('#tab-', '');
+        if (hash) show(hash, false);
+      })();
+
+      // ---- Generic segmented panel switcher (guard explainer, FET guard) ----
+      (function () {
+        ['niGuardSeg', 'niFetSeg'].forEach(function (id) {
+          var seg = document.getElementById(id);
+          if (!seg) return;
+          var scope = seg.parentElement;
+          var btns = Array.prototype.slice.call(seg.querySelectorAll('.ni-seg-btn'));
+          var panels = Array.prototype.slice.call(scope.querySelectorAll('.ni-seg-panel'));
+          btns.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+              btns.forEach(function (b) { b.classList.toggle('active', b === btn); });
+              panels.forEach(function (p) { p.hidden = p.dataset.panel !== btn.dataset.panel; });
+            });
+          });
+        });
+      })();
+
+      // ---- V&V table phase filter ----
+      (function () {
+        var seg = document.getElementById('niVvSeg');
+        var body = document.getElementById('niVvBody');
+        if (!seg || !body) return;
+        var btns = Array.prototype.slice.call(seg.querySelectorAll('.ni-seg-btn'));
+        var rows = Array.prototype.slice.call(body.querySelectorAll('tr'));
+        btns.forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            btns.forEach(function (b) { b.classList.toggle('active', b === btn); });
+            var phase = btn.dataset.phase;
+            rows.forEach(function (r) {
+              r.classList.toggle('d-none', phase !== 'all' && r.dataset.phase !== phase);
+            });
+          });
+        });
+      })();
+
+      // ---- Stackup cross-section switcher (identical to ni1) ----
+      (function () {
+        var seg = document.getElementById('niStackSeg');
+        var stack = document.getElementById('niStack');
+        var caption = document.getElementById('niStackCaption');
+        if (!seg || !stack) return;
+
+        var CROSS = [
+          {
+            caption: 'Each sensitive signal layer is sandwiched by driven guard. Signals are staggered so no two share a guard boundary.',
+            layers: [
+              { label: 'Signal A — H_CUR / H_POT', net: 'signal' },
+              { label: 'Guard (driven)', net: 'guard' },
+              { label: 'Signal B — L_CUR / L_POT', net: 'signal' },
+              { label: 'Guard (driven)', net: 'guard' },
+              { label: 'Ground / chassis shield', net: 'ground' },
+              { label: 'Signal return &amp; control', net: 'signal' }
+            ]
+          },
+          {
+            caption: 'Reduced-guard fallback for regions where routing density wins: one shared guard, ground pushed outward.',
+            layers: [
+              { label: 'Signal A — force / sense', net: 'signal' },
+              { label: 'Guard (shared)', net: 'guard' },
+              { label: 'Signal B — force / sense', net: 'signal' },
+              { label: 'Unassigned / spare', net: 'none' },
+              { label: 'Ground / chassis shield', net: 'ground' },
+              { label: 'Control &amp; digital', net: 'signal' }
+            ]
+          },
+          {
+            caption: 'Deliberately non-ideal control case: conventional ground referencing, so the cost of "normal" PCB practice can be measured directly.',
+            layers: [
+              { label: 'Signal A — force / sense', net: 'signal' },
+              { label: 'Ground (no guard)', net: 'ground' },
+              { label: 'Signal B — force / sense', net: 'signal' },
+              { label: 'Ground (no guard)', net: 'ground' },
+              { label: 'Ground / chassis shield', net: 'ground' },
+              { label: 'Control &amp; digital', net: 'signal' }
+            ]
+          }
+        ];
+
+        var NET_LABEL = { signal: 'signal', guard: 'guard', ground: 'ground', none: 'spare' };
+
+        function render(i) {
+          var cross = CROSS[i];
+          stack.innerHTML = cross.layers.map(function (l, n) {
+            return '<div class="ni-stack-layer" data-net="' + l.net + '">' +
+                     '<span><span class="ni-layer-num">L' + (n + 1) + '</span>&nbsp;&nbsp;' + l.label + '</span>' +
+                     '<span class="ni-layer-net">' + NET_LABEL[l.net] + '</span>' +
+                   '</div>';
+          }).join('');
+          caption.textContent = cross.caption;
+        }
+
+        var btns = Array.prototype.slice.call(seg.querySelectorAll('.ni-seg-btn'));
+        btns.forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            btns.forEach(function (b) { b.classList.toggle('active', b === btn); });
+            render(parseInt(btn.dataset.cross, 10));
+          });
+        });
+        render(0);
+      })();
+    </script>
+  </body>
+</html>
