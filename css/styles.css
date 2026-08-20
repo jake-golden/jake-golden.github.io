@@ -1662,6 +1662,15 @@ body.has-constellation-bg > main {
    the <span> also defaults to min-width:auto and would render text past its
    own box instead of wrapping. flex:1 lets it actually take the shrunk width. */
 #home .interest-card span { font-size: 0.85rem; font-weight: 600; line-height: 1.25; flex: 1 1 auto; min-width: 0; }
+/* Secondary line under an interest label (e.g. the role under "Duke Football").
+   display:block puts it on its own line; em-relative so it stays proportional
+   if the parent label size ever changes. */
+#home .interest-card .interest-sub {
+  display: block;
+  font-size: 0.8em;
+  font-weight: 500;
+  color: var(--text-muted);
+}
 
 /* Where I'm From */
 /* Fill the space under the heading; the row stretches to that full height and
