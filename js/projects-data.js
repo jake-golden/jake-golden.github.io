@@ -13,7 +13,7 @@ const PROJECTS = [
     hoverPreview: { type: 'video', src: 'assets/engineering/pulse-oximeter/thumbnail.mp4' },
     banner: {
       title: 'MATLAB Pulse Oximeter',
-      subtitle: 'Laboratory project for Medical Instrumentation and Devices course.',
+      subtitle: 'DIY pulse oximeter that turns light signals into heartbeats and oxygen levels.',
       backgroundImage: { webp: 'assets/engineering/pulse-oximeter/banner.webp', fallback: 'assets/engineering/pulse-oximeter/banner.png' },
       logo: null
     }
