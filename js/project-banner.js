@@ -3,11 +3,22 @@
 // up in PROJECTS (js/projects-data.js) to render the banner — title, subtitle,
 // background image, and optional logo all come from that single record.
 (function () {
+  // image-set() requires each candidate's real MIME type — a wrong one makes the
+  // browser discard that candidate, so derive it from the extension rather than
+  // assuming png (banner fallbacks are a mix of .png and .jpg).
+  var MIME = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', gif: 'image/gif' };
+
+  function mimeFor(path) {
+    var ext = path.split('.').pop().toLowerCase();
+    return MIME[ext] || 'image/png';
+  }
+
   function backgroundImageCSS(bg) {
     if (!bg) return 'none';
     if (!bg.fallback) return "url('" + bg.webp + "')";
     return (
-      "image-set(url('" + bg.webp + "') type('image/webp'), url('" + bg.fallback + "') type('image/png'))"
+      "image-set(url('" + bg.webp + "') type('image/webp'), url('" +
+      bg.fallback + "') type('" + mimeFor(bg.fallback) + "'))"
     );
   }
 

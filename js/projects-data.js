@@ -135,11 +135,12 @@ const PROJECTS = [
     }
   },
   {
-    // DRAFT — ni1.html / ni2.html are competing layout drafts that share this record
-    // (both use <body data-project="ni">). `draft: true` keeps it off the engineering
-    // grid; delete that flag and fill in the thumbnail/banner assets to publish.
+    // DRAFT — ni.html is the real page (content still being ported over from the
+    // ni1.html / ni2.html layout drafts, which share this record via
+    // <body data-project="ni">). `draft: true` keeps it off the engineering grid;
+    // delete that flag and fill in the thumbnail/banner assets to publish.
     slug: 'ni',
-    href: 'ni1.html',
+    href: 'ni.html',
     title: 'National Instruments',
     tagline: 'Analog V&V and DIB design for a precision LCR meter.',
     draft: true,
@@ -148,11 +149,10 @@ const PROJECTS = [
     thumbnail: { webp: '', fallback: null },
     hoverPreview: null,
     banner: {
-      title: 'Analog Design & V&V,\nNational Instruments',
-      subheading: 'PXIe-4190 LCR Meter / SMU',
-      subtitle: 'Summer 2026 internship — Austin, TX. NI, an Emerson company.',
-      backgroundImage: null,
-      logo: null
+      title: 'Analog Design,\nNational Instruments',
+      subtitle: "Characterization of high-precision dual LCR meter and SMU inside of NI's Semiconductor Test System (STS).",
+      backgroundImage: { webp: 'assets/engineering/national-instruments/ni_banner.webp', fallback: 'assets/engineering/national-instruments/ni_banner.png' },
+      logo: 'assets/engineering/national-instruments/logo.svg'
     }
   },
   {
