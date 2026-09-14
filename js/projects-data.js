@@ -19,19 +19,19 @@ const PROJECTS = [
     }
   },
   {
-    slug: 'stryker',
-    href: 'stryker.html',
-    title: 'Stryker Product Development',
-    tagline: 'Medical device design, testing, and automation.',
+    slug: 'ni',
+    href: 'ni.html',
+    title: 'NI Analog Design Internship',
+    tagline: 'PCB design and specification testing for high-precision instrument.',
     categories: ['internship'],
-    keywords: ['medical', 'automation'],
-    thumbnail: { webp: 'assets/engineering/stryker/thumbnail.webp', fallback: 'assets/engineering/stryker/thumbnail.png' },
-    hoverPreview: { type: 'gif', src: 'assets/engineering/stryker/thumbnail.gif' },
+    keywords: ['analog', 'pcb', 'test'],
+    thumbnail: { webp: 'assets/engineering/national-instruments/thumbnail.webp', fallback: 'assets/engineering/national-instruments/thumbnail.png' },
+    hoverPreview: { type: 'image', src: 'assets/engineering/national-instruments/thumbnail.webp' },
     banner: {
-      title: 'Product Development,\nStryker Corporation',
-      subtitle: 'Hands-on experience in medical device design, testing, and automation.',
-      backgroundImage: { webp: 'assets/engineering/stryker/stryker_banner.webp', fallback: 'assets/engineering/stryker/stryker_banner.png' },
-      logo: 'assets/engineering/stryker/logo.png'
+      title: 'Analog Design,\nNational Instruments',
+      subtitle: "Characterization of high-precision dual LCR meter and SMU inside of NI's Semiconductor Test System (STS).",
+      backgroundImage: { webp: 'assets/engineering/national-instruments/ni_banner.webp', fallback: 'assets/engineering/national-instruments/ni_banner.png' },
+      logo: 'assets/engineering/national-instruments/logo.svg'
     }
   },
   {
@@ -65,6 +65,22 @@ const PROJECTS = [
       subtitle: 'EGR101L at Duke University, semester-long design course.',
       backgroundImage: { webp: 'assets/engineering/steel-ball-dispenser/ulsolutions-banner.webp', fallback: 'assets/engineering/steel-ball-dispenser/ulsolutions-banner.png' },
       logo: 'assets/engineering/steel-ball-dispenser/logo.svg'
+    }
+  },
+  {
+    slug: 'stryker',
+    href: 'stryker.html',
+    title: 'Stryker Product Development',
+    tagline: 'Medical device design, testing, and automation.',
+    categories: ['internship'],
+    keywords: ['medical', 'automation'],
+    thumbnail: { webp: 'assets/engineering/stryker/thumbnail.webp', fallback: 'assets/engineering/stryker/thumbnail.png' },
+    hoverPreview: { type: 'gif', src: 'assets/engineering/stryker/thumbnail.gif' },
+    banner: {
+      title: 'Product Development,\nStryker Corporation',
+      subtitle: 'Hands-on experience in medical device design, testing, and automation.',
+      backgroundImage: { webp: 'assets/engineering/stryker/stryker_banner.webp', fallback: 'assets/engineering/stryker/stryker_banner.png' },
+      logo: 'assets/engineering/stryker/logo.png'
     }
   },
   {
@@ -132,27 +148,6 @@ const PROJECTS = [
       subtitle: 'Mechanical engineering internship focused on repair and design of centrifugal pumps.',
       backgroundImage: { webp: 'assets/engineering/sims-pump/sims_banner.webp', fallback: 'assets/engineering/sims-pump/sims_banner.png' },
       logo: 'assets/engineering/sims-pump/logo.png'
-    }
-  },
-  {
-    // DRAFT — ni.html is the real page (content still being ported over from the
-    // ni1.html / ni2.html layout drafts, which share this record via
-    // <body data-project="ni">). `draft: true` keeps it off the engineering grid;
-    // delete that flag and fill in the thumbnail/banner assets to publish.
-    slug: 'ni',
-    href: 'ni.html',
-    title: 'National Instruments',
-    tagline: 'Analog V&V and DIB design for a precision LCR meter.',
-    draft: true,
-    categories: ['internship'],
-    keywords: ['analog', 'pcb', 'test'],
-    thumbnail: { webp: '', fallback: null },
-    hoverPreview: null,
-    banner: {
-      title: 'Analog Design,\nNational Instruments',
-      subtitle: "Characterization of high-precision dual LCR meter and SMU inside of NI's Semiconductor Test System (STS).",
-      backgroundImage: { webp: 'assets/engineering/national-instruments/ni_banner.webp', fallback: 'assets/engineering/national-instruments/ni_banner.png' },
-      logo: 'assets/engineering/national-instruments/logo.svg'
     }
   },
   {
