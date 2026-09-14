@@ -31,29 +31,81 @@
       @media (max-width: 768px) { .banner-logo { min-width: 90px; max-width: 117px; } }
       @media (max-width: 600px) { .banner-logo { min-width: 81px; max-width: 108px; } }
 
-      /* Placeholder while the writeup is being ported over from the ni1/ni2
-         drafts. Sized so the page still fills the viewport below the banner
-         instead of leaving the footer floating mid-screen. */
-      .coming-soon-wrap {
+      /* ---- Theme-reactive asset placeholder (page still being fleshed out
+         with real photos/diagrams) — same convention as the ni1/ni2 drafts.
+         Deliberately NOT named .img-placeholder: cpu.html's version of that
+         class hardcodes light-mode colors and predates the theme system. */
+      .img-ph {
+        background: var(--surface);
+        border: 2px dashed var(--border);
+        border-radius: 8px;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        color: var(--text-muted);
+        font-size: 0.9rem; text-align: center;
+        padding: 1.5rem; gap: 0.5rem; min-height: 220px;
+      }
+      .img-ph .ph-icon { font-size: 2.5rem; opacity: 0.45; }
+      .img-ph .ph-title { font-weight: 700; font-size: 1rem; color: var(--text); margin: 0; font-family: "Plus Jakarta Sans", sans-serif; }
+      .img-ph .ph-desc { margin: 0; font-style: italic; }
+      .img-ph-gal { min-height: 180px; padding: 1rem; }
+      .img-ph-card { min-height: 260px; }
+
+      /* ---- Shared icon-tile + label row list (.eval-list/.eval-row): used
+         for both the Goal card's background bullets and the Evaluation
+         Questions pane, uniform bg. --surface (cpu.html's isa-table base) is
+         pure white in light mode, same as .content-box itself, so rows would
+         disappear there — --chip-bg gives real contrast in both themes, plus
+         a border+shadow (the .skill-item convention) so a row reads as a
+         tile even where a background pairing is close. Icon square reuses
+         cpu.html's pipeline-icon treatment. ---- */
+      .eval-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+      }
+      .eval-row {
+        display: flex;
+        align-items: stretch;
+        border-radius: 10px;
+        overflow: hidden;
+        background: var(--chip-bg);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+      }
+      /* --chip-bg reads a bit too blue/gray at full strength in light mode —
+         nudge it much closer to white here, relying on the border+shadow
+         above (not color contrast) to keep the row legible as a tile. */
+      [data-theme="light"] .eval-row { background: #fafbfc; }
+      .eval-icon {
+        flex: 0 0 72px;
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: 46vh;
+        background: var(--carousel-btn-bg);
+        border-right: 1px solid var(--border);
+        color: var(--carousel-btn-icon);
+        font-size: 1.5rem;
       }
-      .coming-soon-box {
-        max-width: 560px;
-        padding: 3rem 2rem;
-        text-align: center;
+      .eval-text {
+        padding: 1rem 1.5rem;
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+        color: var(--text);
       }
-      .coming-soon-box .cs-icon {
-        font-size: 3rem;
-        color: var(--text-muted);
-        opacity: 0.55;
-        display: block;
-        margin-bottom: 1rem;
+      @media (max-width: 480px) {
+        .eval-icon { flex-basis: 56px; font-size: 1.25rem; }
+        .eval-text { padding: 0.75rem 1rem; font-size: 0.9rem; }
       }
-      .coming-soon-box h2 { margin-bottom: 0.75rem; }
-      .coming-soon-box p { margin-bottom: 0; }
+
+      /* ---- Extra spacing between top-level bullets in the Cable/DIB cards.
+         Child combinator (> li) so it only spaces the outer list's own
+         items — nested sub-bullet <li>s belong to the inner <ul>, so they
+         keep the browser's default single-line spacing untouched. */
+      .bullets-spaced > li { margin-bottom: 0.75rem; }
+      .bullets-spaced > li:last-child { margin-bottom: 0; }
     </style>
   </head>
   <body class="d-flex flex-column h-100" data-project="ni">
@@ -65,13 +117,306 @@
       <div id="banner-placeholder"></div>
       <script src="js/project-banner.js"></script>
 
+      <!-- Goal -->
       <section class="container px-5 mt-5 mb-5">
-        <div class="coming-soon-wrap">
-          <div class="content-box coming-soon-box">
-            <i class="bi bi-cone-striped cs-icon"></i>
-            <h2 class="fw-bolder">Coming Soon</h2>
-            <p class="lead text-muted">I'm currently working on the writeup for this internship, check back soon!</p>
+        <div class="row gx-5 py-4">
+          <div class="col-12 mb-4">
+            <div class="content-box">
+              <div class="row align-items-stretch g-4">
+                <div class="col-lg-6">
+                  <h3 class="fw-bolder text-center">Goal</h3>
+                  <p class="lead">Characterize the <span class="text-highlighted">performance and specifications</span> of NI's high-precision dual LCR/SMU meter (PXIe-4190 module) inside NI Semiconductor Test System (STS)</p>
+                  <div class="eval-list">
+                    <div class="eval-row">
+                      <div class="eval-icon"><i class="bi bi-server"></i></div>
+                      <div class="eval-text">STS is an ATE platform that takes wafer measurements using NI's instrumentation modules</div>
+                    </div>
+                    <div class="eval-row">
+                      <div class="eval-icon"><i class="bi bi-bullseye"></i></div>
+                      <div class="eval-text">Wafers contact metal probes on a device-interface board (DIB), which routes signals down to internal modules</div>
+                    </div>
+                    <div class="eval-row">
+                      <div class="eval-icon"><i class="bi bi-rulers"></i></div>
+                      <div class="eval-text">Module-level specifications for PXIe-4190 already known; needed to understand specifications at spring-pin plane</div>
+                    </div>
+                    <div class="eval-row">
+                      <div class="eval-icon"><i class="bi bi-exclamation-triangle"></i></div>
+                      <div class="eval-text">Cable and DIB each add parasitics that degrade high-precision measurements (especially at very low or high impedances)</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="d-flex flex-column gap-4 h-100">
+                    <div class="ratio ratio-16x9 rounded" style="overflow:hidden;">
+                      <iframe src="https://www.youtube.com/embed/m2kUhrjI3zQ" title="STS Machine" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="rounded d-flex align-items-center justify-content-center" style="flex:1 1 0; min-height:220px;">
+                      <picture>
+                        <source data-light-srcset="assets/engineering/ni/signal_flow_path-light.webp"
+                                data-dark-srcset="assets/engineering/ni/signal_flow_path-dark.webp"
+                                srcset="assets/engineering/ni/signal_flow_path-dark.webp" type="image/webp">
+                        <img src="assets/engineering/ni/signal_flow_path-dark.png"
+                             alt="Signal flow path: module to cable to device-interface board (DIB)"
+                             class="img-fluid clickable-lightbox"
+                             data-light-src="assets/engineering/ni/signal_flow_path-light.png"
+                             data-dark-src="assets/engineering/ni/signal_flow_path-dark.png"
+                             data-full="assets/engineering/ni/signal_flow_path-light.png"
+                             data-caption="Signal flows from module &rarr; cable &rarr; device-interface board (DIB), each stage adding parasitics that can degrade LCR measurements."
+                             style="width:100%; height:100%; object-fit:contain;">
+                      </picture>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+        </div>
+
+        <!-- Evaluation Questions -->
+        <div class="row gx-5 py-4">
+          <div class="col-12 mb-4">
+            <div class="content-box">
+              <h3 class="fw-bolder">Evaluation Questions: PXIe-4190 in STS</h3>
+              <div class="eval-list">
+                <div class="eval-row">
+                  <div class="eval-icon"><i class="bi bi-search"></i></div>
+                  <div class="eval-text">Accuracy/resolution across frequency and impedance range</div>
+                </div>
+                <div class="eval-row">
+                  <div class="eval-icon"><i class="bi bi-speedometer2"></i></div>
+                  <div class="eval-text">Ability to compensate out added system components</div>
+                </div>
+                <div class="eval-row">
+                  <div class="eval-icon"><i class="bi bi-thermometer-half"></i></div>
+                  <div class="eval-text">Compensation stability with temperature/humidity</div>
+                </div>
+                <div class="eval-row">
+                  <div class="eval-icon">
+                    <svg viewBox="0 0 123 124" width="1em" height="1em" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                      <path d="M0 0 59.2526 0 59.2526 98.5702 118.505 98.5702" stroke="currentColor" stroke-width="15.625" stroke-linecap="butt" stroke-linejoin="round" stroke-miterlimit="10" fill="none" fill-rule="evenodd" transform="matrix(1 0 0 -1 2.5 112.07)"/>
+                    </svg>
+                  </div>
+                  <div class="eval-text">Settling time after DC bias change</div>
+                </div>
+                <div class="eval-row">
+                  <div class="eval-icon"><i class="bi bi-stopwatch"></i></div>
+                  <div class="eval-text">Optimal measurement time/source delay settings with cable</div>
+                </div>
+                <div class="eval-row">
+                  <div class="eval-icon"><i class="bi bi-cpu"></i></div>
+                  <div class="eval-text">DIB non-idealities</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Two expandable cards: cable parasitics / DIB non-idealities -->
+        <div class="row g-4">
+          <div class="col-12">
+            <div class="card shadow expandable-card">
+              <div class="card-body">
+                <h5 class="fw-bolder">Cable Parasitic Tests</h5>
+                <p class="text-muted"><span class="expand-hint">Click to expand</span></p>
+                <div class="expandable-content">
+                  <div class="row g-3 mt-1">
+                    <div class="col-md-5">
+                      <ul class="bullets-spaced">
+                        <li>Characterized stray DC resistances and capacitances in cable</li>
+                        <li>Quantified measurement uncertainty across frequency range</li>
+                        <li>Evaluated cable impact on various customer use cases: 
+                          <ul>
+                            <li>Impedance extremes</li>
+                            <li>Large DC bias steps</li>
+                            <li>Rapid sequential measurements</li>
+                          </ul>
+                        </li>
+                        <li>Wrote LabVIEW VIs to automate instrumentation control, data acquisition, and logging</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-7">
+                      <div id="carouselNiCable" class="carousel slide media-carousel mb-3" data-bs-ride="false">
+                        <!-- All 4 source images share the same 7:5 aspect ratio, so the
+                             container is fixed to match it exactly and each image fills
+                             it edge-to-edge (object-fit:cover) — no background/bezel
+                             ever shows since there's no letterboxing to fill. -->
+                        <div class="carousel-inner" style="aspect-ratio:7/5;">
+                          <div class="carousel-item active">
+                            <picture>
+                              <source srcset="assets/engineering/ni/cable_parasitic_tests_1.webp" type="image/webp">
+                              <img src="assets/engineering/ni/cable_parasitic_tests_1.png" class="rounded clickable-lightbox" alt="Data acquisition setup" data-full="assets/engineering/ni/cable_parasitic_tests_1.png" data-caption="Data acquisition setup: PXIe-4190 connected to cable breakout board for resolution testing across frequency range" style="width:100%; height:100%; object-fit:cover;">
+                            </picture>
+                          </div>
+                          <div class="carousel-item">
+                            <picture>
+                              <source srcset="assets/engineering/ni/cable_parasitic_tests_2.webp" type="image/webp">
+                              <img src="assets/engineering/ni/cable_parasitic_tests_2.png" class="rounded clickable-lightbox" alt="LabVIEW front panel" data-full="assets/engineering/ni/cable_parasitic_tests_2.png" data-caption="One of many LabVIEW VIs written for automated instrumentation control, data acquisition, and logging" style="width:100%; height:100%; object-fit:cover;">
+                            </picture>
+                          </div>
+                          <div class="carousel-item">
+                            <picture>
+                              <source srcset="assets/engineering/ni/cable_parasitic_tests_3.webp" type="image/webp">
+                              <img src="assets/engineering/ni/cable_parasitic_tests_3.png" class="rounded clickable-lightbox" alt="Figures for report" data-full="assets/engineering/ni/cable_parasitic_tests_3.png" data-caption="Quantitative data obtained from cable testing for report" style="width:100%; height:100%; object-fit:cover;">
+                            </picture>
+                          </div>
+                          <div class="carousel-item">
+                            <picture>
+                              <source srcset="assets/engineering/ni/cable_parasitic_tests_4.webp" type="image/webp">
+                              <img src="assets/engineering/ni/cable_parasitic_tests_4.png" class="rounded clickable-lightbox" alt="LabVIEW block diagram" data-full="assets/engineering/ni/cable_parasitic_tests_4.png" data-caption="LabVIEW block diagram for instrumentation control" style="width:100%; height:100%; object-fit:cover;">
+                            </picture>
+                          </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselNiCable" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselNiCable" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="card shadow expandable-card">
+              <div class="card-body">
+                <h5 class="fw-bolder">DIB Non-Ideality Tests</h5>
+                <p class="text-muted"><span class="expand-hint">Click to expand</span></p>
+                <div class="expandable-content">
+                  <div class="row g-3 mt-1">
+                    <div class="col-md-5">
+                      <ul class="bullets-spaced">
+                        <li>Designed schematic and layout for characterization DIB to model potential non-idealities for customer user cases:
+                          <ul>
+                            <li>Long, winding traces that present transmission line effects at high frequencies</li>
+                            <li>Deviations from strict 4TP guarding scheme</li>
+                            <li>Solid-state switches that introduce additional parasitics</li>
+                            <li>Grounding topologies that introduce stray capacitances and leakage paths</li>
+                          </ul>
+                        </li>
+                        <li>Designed "ideal" site with best-practice guarding/layout for reference</li>
+                        <li>Board is currently in production</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-7">
+                      <div id="carouselNiDib" class="carousel slide media-carousel mb-3" data-bs-ride="false">
+                        <div class="carousel-inner" style="max-height:420px">
+                          <div class="carousel-item active">
+                            <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                              <picture>
+                                <source srcset="assets/engineering/ni/DIBNITS_1.webp" type="image/webp">
+                                <img src="assets/engineering/ni/DIBNITS_1.png" class="rounded clickable-lightbox" alt="Characterization DIB board layout overview" data-full="assets/engineering/ni/DIBNITS_1.png" data-lightbox-bg="#000" data-caption="Characterization DIB layout, modeling various non-idealities customers may incorporate in their own DIBs" style="max-height:380px; max-width:100%; object-fit:contain;">
+                              </picture>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                              <picture>
+                                <source srcset="assets/engineering/ni/DIBNITS_2.webp" type="image/webp">
+                                <img src="assets/engineering/ni/DIBNITS_2.png" class="rounded clickable-lightbox" alt="Effect of long trace lengths" data-full="assets/engineering/ni/DIBNITS_2.png" data-lightbox-bg="#000" data-caption="Long PCB traces introduce transmission-line effects (especially relevant at high frequency) that can degrade LCR measurements" style="max-height:380px; max-width:100%; object-fit:contain;">
+                              </picture>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                              <picture>
+                                <source srcset="assets/engineering/ni/DIBNITS_3.webp" type="image/webp">
+                                <img src="assets/engineering/ni/DIBNITS_3.png" class="rounded clickable-lightbox" alt="Effect of 4TP break" data-full="assets/engineering/ni/DIBNITS_3.png" data-lightbox-bg="#000" data-caption="Breaking the 4TP guarding scheme is not recommended, but may be unavoidable in certain cases like in a board-to-board connection" style="max-height:380px; max-width:100%; object-fit:contain;">
+                              </picture>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                              <picture>
+                                <source srcset="assets/engineering/ni/DIBNITS_4.webp" type="image/webp">
+                                <img src="assets/engineering/ni/DIBNITS_4.png" class="rounded clickable-lightbox" alt="Switching parasitics" data-full="assets/engineering/ni/DIBNITS_4.png" data-lightbox-bg="#000" data-caption="Customers frequently use switches, but switches introduce parasitic elements (on-state resistance, off-state capacitance)" style="max-height:380px; max-width:100%; object-fit:contain;">
+                              </picture>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                              <picture>
+                                <source srcset="assets/engineering/ni/DIBNITS_5.webp" type="image/webp">
+                                <img src="assets/engineering/ni/DIBNITS_5.png" class="rounded clickable-lightbox" alt="Grounding topologies" data-full="assets/engineering/ni/DIBNITS_5.png" data-lightbox-bg="#000" data-caption="Different grounding topologies can introduce leakage current paths or distributed parasitic capacitances" style="max-height:380px; max-width:100%; object-fit:contain;">
+                              </picture>
+                            </div>
+                          </div>
+                          <div class="carousel-item">
+                            <div class="d-flex justify-content-center align-items-center w-100 h-100">
+                              <picture>
+                                <source srcset="assets/engineering/ni/DIBNITS_6.webp" type="image/webp">
+                                <img src="assets/engineering/ni/DIBNITS_6.png" class="rounded clickable-lightbox" alt="Schematic design" data-full="assets/engineering/ni/DIBNITS_6.png" data-lightbox-bg="#000" data-caption="Two of the block schematics for characterization DIB" style="max-height:380px; max-width:100%; object-fit:contain;">
+                              </picture>
+                            </div>
+                          </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselNiDib" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselNiDib" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gallery: misc photos from the summer -->
+        <div class="carousel-container py-4 mt-4">
+          <button class="carousel-btn prev">&#10094;</button>
+          <div class="carousel-track">
+            <div class="carousel-item-custom">
+              <picture>
+                <source srcset="assets/engineering/ni/ni_gallery_1.webp" type="image/webp">
+                <img src="assets/engineering/ni/ni_gallery_1.png" alt="Intern team group photo at the Board of VI-ght LabVIEW competition">
+              </picture>
+            </div>
+            <div class="carousel-item-custom">
+              <picture>
+                <source srcset="assets/engineering/ni/ni_gallery_2.webp" type="image/webp">
+                <img src="assets/engineering/ni/ni_gallery_2.png" alt="Jake Golden presenting the PARASITE project poster at final presentations">
+              </picture>
+            </div>
+            <div class="carousel-item-custom">
+              <picture>
+                <source srcset="assets/engineering/ni/ni_gallery_3.webp" type="image/webp">
+                <img src="assets/engineering/ni/ni_gallery_3.png" alt="Intern presenting a project's architecture and approach on a large display">
+              </picture>
+            </div>
+            <div class="carousel-item-custom">
+              <picture>
+                <source srcset="assets/engineering/ni/ni_gallery_4.webp" type="image/webp">
+                <img src="assets/engineering/ni/ni_gallery_4.png" alt="Overlooking Pennybacker Bridge on Lake Austin">
+              </picture>
+            </div>
+            <div class="carousel-item-custom">
+              <picture>
+                <source srcset="assets/engineering/ni/ni_gallery_5.webp" type="image/webp">
+                <img src="assets/engineering/ni/ni_gallery_5.png" alt="PXI chassis with NI modules and characterization DIB wired up on the bench">
+              </picture>
+            </div>
+          </div>
+          <button class="carousel-btn next">&#10095;</button>
+        </div>
+
+        <!-- Skills -->
+        <div class="row row-cols-1 row-cols-md-3 g-3 py-4">
+          <div class="col"><div class="skill-item">Siemens Xpedition</div></div>
+          <div class="col"><div class="skill-item">Component Tradeoff Analysis</div></div>
+          <div class="col"><div class="skill-item">V&V Test Protocol Development</div></div>
+          <div class="col"><div class="skill-item">LabVIEW</div></div>
+          <div class="col"><div class="skill-item">NI-DCPower</div></div>
+          <div class="col"><div class="skill-item">NI-DAQmx</div></div>
         </div>
       </section>
     </main>
@@ -81,5 +426,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="js/scripts.js"></script>
+    <script src="js/media-carousel.js"></script>
+    <script src="js/gallery-strip.js"></script>
+    <script src="js/lightbox.js"></script>
+    <script src="js/theme-images.js"></script>
   </body>
 </html>

@@ -75,6 +75,13 @@
                 <li>Live SpO<sub>2</sub> estimation using R-ratio calculation.</li>
                 <li>Interactive MATLAB GUI for data visualization and system control.</li>
               </ul>
+              <h5 class="fw-bolder mb-3 mt-4" style="padding-left: clamp(0rem, 5vw, 2rem); padding-right: clamp(0rem, 5vw, 5rem);">Limitations</h5>
+              <ul style="padding-left: clamp(1.5rem, 5vw, 5rem); padding-right: clamp(0rem, 5vw, 5rem);">
+                <li>Changing sensing parameters (LED durations, deadtimes, and intensities) requires manual adjustment.</li>
+                <li>AFE is implemented on a breadboard, making it sensitive to EMI.</li>
+                <li>Switching LEDs induces a short transient (hence the use of deadtime), limiting SpO<sub>2</sub> measurement speed.</li>
+                <li>R-to-SpO<sub>2</sub> calibration curve is a linear approximation and not validated against real clinical data.</li>
+              </ul>
             </div>
           </div>
 

@@ -29,10 +29,14 @@
     var videoSource = document.getElementById('lightboxVideoSource');
     var captionEl = document.getElementById('lightboxCaption');
 
-    function openImage(src, caption, alt) {
+    function openImage(src, caption, alt, bg) {
       imgEl.src = src;
       imgEl.alt = alt || 'Expanded view';
       imgEl.style.display = 'block';
+      // Opt-in per-image background override (data-lightbox-bg) — falls back
+      // to the CSS default (white) when not set, so this is a no-op for
+      // every existing caller that doesn't pass it.
+      imgEl.style.background = bg || '';
       videoEl.style.display = 'none';
       videoEl.pause();
       captionEl.textContent = caption || '';
@@ -58,6 +62,7 @@
       lightbox.setAttribute('aria-hidden', 'true');
       imgEl.src = '';
       imgEl.style.display = 'block';
+      imgEl.style.background = '';
       videoEl.pause();
       videoEl.style.display = 'none';
       videoSource.src = '';
@@ -79,7 +84,7 @@
       if (!img || img.closest('.media-carousel')) return; // carousel images handled below
       e.preventDefault(); // no-op for <img>, stops <a href="#"> from jumping/scrolling
       e.stopPropagation();
-      openImage(img.getAttribute('data-full') || img.src, img.getAttribute('data-caption') || img.alt, img.alt);
+      openImage(img.getAttribute('data-full') || img.src, img.getAttribute('data-caption') || img.alt, img.alt, img.getAttribute('data-lightbox-bg'));
     }, true);
 
     // Images inside media-carousel tiles (delegated per carousel root).
@@ -87,7 +92,7 @@
       root.addEventListener('click', function (e) {
         var img = e.target.closest && e.target.closest('img');
         if (!img || !root.contains(img)) return;
-        openImage(img.getAttribute('data-full') || img.src, img.getAttribute('data-caption') || img.alt, img.alt);
+        openImage(img.getAttribute('data-full') || img.src, img.getAttribute('data-caption') || img.alt, img.alt, img.getAttribute('data-lightbox-bg'));
       });
     });
 

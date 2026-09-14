@@ -807,9 +807,14 @@ html {
 }
 .lightbox-caption { color: #fff; font-size: 0.95rem; opacity: 0.9; text-align: center; }
 .lightbox-close {
+  /* Sits just outside the image's top-left corner (not overlapping it) —
+     images with content flush to their own top-left edge (titles, labels)
+     were getting covered when this sat inset over the corner. top:0 lines
+     the button's own top edge up with the image's top edge (rather than
+     floating above it), while left keeps it clear of the image horizontally. */
   position: absolute;
-  top: 1rem;
-  left: 1rem;
+  top: 0;
+  left: -1.75rem;
   background: rgba(255,255,255,0.9);
   border: none;
   border-radius: 8px;
@@ -821,6 +826,11 @@ html {
   z-index: 10;
 }
 .lightbox-close:hover { background: #e9ecef; }
+@media (max-width: 600px) {
+  /* Not enough room outside the image at small viewport widths — fall back
+     to the original inset placement. */
+  .lightbox-close { top: 0.5rem; left: 0.5rem; }
+}
 .lightbox-video {
   position: relative;
   z-index: 1;
