@@ -51,23 +51,6 @@ const PROJECTS = [
     }
   },
   {
-    slug: 'steel-ball-dispenser',
-    href: 'steel-ball-dispenser.html',
-    title: 'Steel Ball Dispenser',
-    tagline: 'Color-approved anti-jamming dispenser for industrial applications.',
-    categories: ['project'],
-    keywords: ['mechanical', 'manufacturing'],
-    thumbnail: { webp: 'assets/engineering/steel-ball-dispenser/thumbnail.webp', fallback: null },
-    hoverPreview: { type: 'video', src: 'assets/engineering/steel-ball-dispenser/thumbnail.mov' },
-    banner: {
-      title: 'Steel Ball Dispenser',
-      subheading: 'for UL Solutions',
-      subtitle: 'EGR101L at Duke University, semester-long design course.',
-      backgroundImage: { webp: 'assets/engineering/steel-ball-dispenser/ulsolutions-banner.webp', fallback: 'assets/engineering/steel-ball-dispenser/ulsolutions-banner.png' },
-      logo: 'assets/engineering/steel-ball-dispenser/logo.svg'
-    }
-  },
-  {
     slug: 'stryker',
     href: 'stryker.html',
     title: 'Stryker Product Development',
@@ -129,6 +112,23 @@ const PROJECTS = [
       subtitle: 'Final Project for Computer Architecture course.',
       backgroundImage: { webp: 'assets/engineering/cpu/banner.webp', fallback: 'assets/engineering/cpu/banner.png' },
       logo: null
+    }
+  },
+  {
+    slug: 'steel-ball-dispenser',
+    href: 'steel-ball-dispenser.html',
+    title: 'Steel Ball Dispenser',
+    tagline: 'Color-approved anti-jamming dispenser for industrial applications.',
+    categories: ['project'],
+    keywords: ['mechanical', 'manufacturing'],
+    thumbnail: { webp: 'assets/engineering/steel-ball-dispenser/thumbnail.webp', fallback: null },
+    hoverPreview: { type: 'video', src: 'assets/engineering/steel-ball-dispenser/thumbnail.mov' },
+    banner: {
+      title: 'Steel Ball Dispenser',
+      subheading: 'for UL Solutions',
+      subtitle: 'EGR101L at Duke University, semester-long design course.',
+      backgroundImage: { webp: 'assets/engineering/steel-ball-dispenser/ulsolutions-banner.webp', fallback: 'assets/engineering/steel-ball-dispenser/ulsolutions-banner.png' },
+      logo: 'assets/engineering/steel-ball-dispenser/logo.svg'
     }
   },
   {

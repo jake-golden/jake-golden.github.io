@@ -25,7 +25,7 @@
           <h3 class="fw-bolder mb-3">Project Overview</h3>
           <ul>
             <li><strong>Goal: build a benchtop VVI cardiac pacemaker circuit capable of sensing cardiac electrograms and pacing a live frog heart</strong></li>
-            <li>Analog front-end (AFE) senses and conditions the frog electrogram and detects QRS complexes in real time</li>
+            <li>Analog front-end senses and conditions the frog electrogram and detects QRS complexes in real time</li>
             <li>Arduino VVI algorithm tracks BPM and delivers a stimulus if no native beat is detected within the lower rate interval</li>
             <li>Verified pacemaker on a live <em>Rana pipiens</em> heart</li>
           </ul>
@@ -59,6 +59,13 @@
                 <li>Potentiometer for adjustable QRS detection threshold.</li>
                 <li>Arduino VVI algorithm: tracks R-R interval, inhibits pacing on native beats, delivers calibrated stimulus pulses.</li>
                 <li>SSD1306 OLED displays live HR, target HR, and pacing status; red LED illuminates on every pacing event.</li>
+              </ul>
+              <h5 class="fw-bolder mb-3 mt-4" style="padding-left: clamp(0rem, 5vw, 2rem); padding-right: clamp(0rem, 5vw, 5rem);">Limitations</h5>
+              <ul style="padding-left: clamp(1.5rem, 5vw, 5rem); padding-right: clamp(0rem, 5vw, 5rem);">
+                <li>QRS detection threshold is manually-tuned.</li>
+                <li>Tissue load was assumed 1 k&Omega; when designing stimulation circuitry.</li>
+                <li>AFE is implemented on a breadboard, making it sensitive to EMI and contact/connection noise.</li>
+                <li>Stimulation amplitude/width are fixed and cannot change if strength-duration curve drifts.</li>
               </ul>
             </div>
           </div>
@@ -339,8 +346,8 @@
         <div class="row row-cols-1 row-cols-md-3 g-3 py-2">
           <div class="col"><div class="skill-item">Bioelectrical Sensing</div></div>
           <div class="col"><div class="skill-item">Real-Time Signal Processing</div></div>
-          <div class="col"><div class="skill-item">Embedded Arduino Firmware</div></div>
-          <div class="col"><div class="skill-item">I&sup2;C Peripheral Integration</div></div>
+          <div class="col"><div class="skill-item">Arduino</div></div>
+          <div class="col"><div class="skill-item">I&sup2;C</div></div>
           <div class="col"><div class="skill-item">Technical Communication</div></div>
           <div class="col"><div class="skill-item">Analog Signal Debugging</div></div>
         </div>
