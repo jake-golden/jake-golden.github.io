@@ -126,24 +126,14 @@
                 <div class="col-lg-6">
                   <h3 class="fw-bolder text-center">Goal</h3>
                   <p class="lead">Characterize the <span class="text-highlighted">performance and specifications</span> of NI's high-precision dual LCR/SMU meter (PXIe-4190 module) inside NI Semiconductor Test System (STS)</p>
-                  <div class="eval-list">
-                    <div class="eval-row">
-                      <div class="eval-icon"><i class="bi bi-server"></i></div>
-                      <div class="eval-text">STS is an ATE platform that takes wafer measurements using NI's instrumentation modules</div>
-                    </div>
-                    <div class="eval-row">
-                      <div class="eval-icon"><i class="bi bi-bullseye"></i></div>
-                      <div class="eval-text">Wafers contact metal probes on a device-interface board (DIB), which routes signals down to internal modules</div>
-                    </div>
-                    <div class="eval-row">
-                      <div class="eval-icon"><i class="bi bi-rulers"></i></div>
-                      <div class="eval-text">Module-level specifications for PXIe-4190 already known; needed to understand specifications at spring-pin plane</div>
-                    </div>
-                    <div class="eval-row">
-                      <div class="eval-icon"><i class="bi bi-exclamation-triangle"></i></div>
-                      <div class="eval-text">Cable and DIB each add parasitics that degrade high-precision measurements (especially at very low or high impedances)</div>
-                    </div>
-                  </div>
+                  <hr style="border: 0; border-top: 1px solid var(--text-muted); opacity: 0.3; width: 25%; margin: 2rem auto;">
+                  <h3 class="fw-bolder text-center">What's the Problem?</h3>
+                  <ul class="bullets-spaced" style="font-size: 1.1rem;">
+                    <li>STS is an ATE platform that takes wafer measurements using NI's instrumentation modules</li>
+                    <li>Wafers contact metal probes on a device-interface board (DIB), which routes signals down to internal modules</li>
+                    <li>Module-level specifications for PXIe-4190 already known; needed to understand specifications at spring-pin plane</li>
+                    <li>Cable and DIB each add parasitics that degrade high-precision measurements (especially at very low or high impedances)</li>
+                  </ul>
                 </div>
                 <div class="col-lg-6">
                   <div class="d-flex flex-column gap-4 h-100">
@@ -299,7 +289,6 @@
                           </ul>
                         </li>
                         <li>Designed "ideal" site with best-practice guarding/layout for reference</li>
-                        <li>Board is currently in production</li>
                       </ul>
                     </div>
                     <div class="col-md-7">
